@@ -1,13 +1,30 @@
 (function() {
-	BubbleContentsView = Backbone.View.extend({
+	FileView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'file',
 		initialize: function() {
-			this.template = _.template($('#content_template').html());
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
 		},
 		render: function() {
-			this.$el.html(this.template(this.model.toJSON()));
+			this.$el.empty();
+			this.$el.append(this.model.get('name'));
+			this.$el.append(100.0 * this.model.get('downloaded') / this.model.get('size'));
 			return this;
+		}
+	});
+
+	BubbleContentsView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'contents',
+		initialize: function() {
+			this.model.on('change', this.render, this);
+			this.model.on('destroy', this.remove, this);
+			
+			this.model.btapp.live('torrent * file * properties', function(file) {
+				var view = new FileView({model:file});
+				this.$el.append(view.render().el);
+			}, this);
 		}
 	});
 
@@ -15,13 +32,20 @@
 		tagName: 'span',
 		className: 'badge badge-info',
 		initialize: function() {
-			this.model.on('change', this.render, this);
+			this.count = this.model.length;
+			this.model.on('add', function() {
+				this.count++;
+				this.render();
+			}, this);
+			this.model.on('remove', function() {
+				this.count--;
+				this.render();
+			}, this);
 			this.model.on('destroy', this.remove, this);
 		},
 		render: function() {
 			this.$el.empty();
-			console.log('render:' + this.model.length);
-			this.$el.text(this.model.length);
+			this.$el.text(this.count);
 			return this;
 		}		
 	});
@@ -45,10 +69,14 @@
 			this.$el.css('left', x + 'px');
 			this.$el.css('top', y + 'px');
 
-			this.model.get('btapp').on('add:torrent', function(torrents) {
+			this.model.btapp.on('add:torrent', function(torrents) {
 				var badge = new BadgeView({model: torrents});
 				this.$el.append(badge.render().el);
 			}, this);
+
+			this.model.btapp.live('torrent * file *', function(file) {
+
+			});
 		},
 		render: function() {
 			this.$el.empty();
@@ -57,25 +85,51 @@
 		}
 	});
 
+	Bubble = Backbone.Model.extend({
+		initialize: function() {
+			this.btapp = new Btapp;
+			this.btapp.connect(this.get('credentials'));
+		}
+	});
+
+	Bubbles = Backbone.Collection.extend({
+		model: Bubble
+	})
+
 	jQuery(function() {
-		var bubbles = new Backbone.Collection;
+		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
 			var view = new BubbleView({model: bubble});
-			view.$el.show();
 			$('.bubble_container').append(view.render().el);
+
+			var contents = new BubbleContentsView({model: bubble});
+			$('.bubble_center').append(contents.render().el);
 		});
 
-		$('.add_bubble').click(function() {
-			var bubble = new Bubble({position: bubbles.length});
-			bubbles.add(bubble);
+		$('.add_user').click(function() {
+			bubbles.add({
+				credentials: {},
+				label: 'Self_' + bubbles.length,
+				position: bubbles.length
+			});
 		});
 
-		var btapp = new Btapp;
-		btapp.connect();
-		bubbles.add({
-			btapp: btapp,
+		var self = new Bubble({
+			credentials: {},
 			label: 'Self',
 			position: 0
 		});
+		bubbles.add(self);
+
+		$('.add_bubble').click(function() {
+			if(typeof self.btapp.browseforfiles === 'undefined') return;
+			self.btapp.browseforfiles(function(files) {
+				if(typeof self.btapp.create === 'undefined') return;
+				self.btapp.create('', _(files).values(), function() {
+					console.log('created');
+				}).then(function() { console.log('called create'); 
+			});
+		}).then(function() { console.log('called browseforfiles')});
+});
 	});
 }).call(this);

@@ -37,18 +37,32 @@ body {
 	margin-left: -200px;
 	margin-top: -200px;
 
+	background-image: url('../images/white_wall.png');
 	border-radius: 200px;
-	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: linear-gradient(top, #ee5f5b, #bd362f);
-	background-repeat: repeat-x;
-	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+
+	font-size: 16px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	color: #555;
+}
+
+.bubble_center .contents {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -130px;
+	margin-top: -150px;
+	width: 260px;
+	height: 300px;
+
+	text-align: center;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.bubble .badge {
+	position: absolute;
+	left: 65%;
+	top: 65%;
 }
 
 .bubble {
@@ -64,31 +78,32 @@ body {
 
 	font-size: 20px;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-
-	color: #eee;
 }
 
 .user_bubble {
-	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: linear-gradient(top, #ee5f5b, #bd362f);
-	background-repeat: repeat-x;
-	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+	background-image: url('../images/white_wall.png');
+	border: 2px solid #888;
+	color: #555;
+}
+
+.user_bubble:hover {
+	border: 3px solid #FCD116;
+}
+
+.add_user {
+	left: 12%;
+	top: 40%;
 }
 
 .add_bubble {
 	left: 12%;
-	top: 50%;
+	top: 60%;
+
+	color: #eee;
 
 	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
+	background-image: -webkit-linear-gradient(top, #EE4000, #8B2500);
 	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
 	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
 	background-image: linear-gradient(top, #ee5f5b, #bd362f);
@@ -97,55 +112,87 @@ body {
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
 	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.add_bubble:hover {
+	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
+	background-image: -webkit-linear-gradient(top, #8B2500, #FF6347);
+	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
+	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
+	background-image: linear-gradient(top, #ee5f5b, #bd362f);
+	background-repeat: repeat-x;
+	border-color: #bd362f #bd362f #802420;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.social_bubble {
+	color: #eee;
+	
+	background-image: -ms-linear-gradient(top, #3B5998, #3B5998);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3B5998), to(#3B5998));
+	background-image: -webkit-linear-gradient(top, #547ED6, #2D4373);
+	background-image: -o-linear-gradient(top, #3B5998, #3B5998);
+	background-image: -moz-linear-gradient(top, #3B5998, #3B5998);
+	background-image: linear-gradient(top, #3B5998, #3B5998);
+	background-repeat: repeat-x;
+	border-color: #bd362f #bd362f #802420;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#3B5998', endColorstr='#3B5998', GradientType=0);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.social_bubble:hover {
+	background-image: -ms-linear-gradient(top, #3B5998, #3B5998);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3B5998), to(#3B5998));
+	background-image: -webkit-linear-gradient(top, #547ED6, #3299CC);
+	background-image: -o-linear-gradient(top, #3B5998, #3B5998);
+	background-image: -moz-linear-gradient(top, #3B5998, #3B5998);
+	background-image: linear-gradient(top, #3B5998, #3B5998);
+	background-repeat: repeat-x;
+	border-color: #bd362f #bd362f #802420;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#3B5998', endColorstr='#3B5998', GradientType=0);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.add_bubble span, .add_user span {
+	font-family: 'Arial';
+	font-weight: bold;
+	font-size: 60pt;
 }
 
 .twitter_bubble {
 	left: 85%;
 	top: 25%;
-
-	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: linear-gradient(top, #ee5f5b, #bd362f);
-	background-repeat: repeat-x;
-	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
 }
 
 .fb_bubble {
 	left: 88%;
 	top: 50%;
+}
 
-	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: linear-gradient(top, #ee5f5b, #bd362f);
-	background-repeat: repeat-x;
-	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+.fb_bubble span {
+	font-family: 'Arial';
+	font-weight: bold;
+	font-size: 60pt;
+	padding-left: 30px;
 }
 
 .email_bubble {
 	left: 85%;
 	top: 75%;
+}
 
-	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: linear-gradient(top, #ee5f5b, #bd362f);
-	background-repeat: repeat-x;
-	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+.email_bubble img {
+	height: 40px;
+	padding-top: 30px;
+}
+
+.email_bubble span {
+	font-family: 'Arial';
+	font-weight: bold;
+	font-size: 40pt;
 }
