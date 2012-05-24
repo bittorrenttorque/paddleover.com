@@ -192,14 +192,14 @@
 					username: jQuery.jStorage.get('username'),
 					password: jQuery.jStorage.get('password')
 				},
-				label: 'Self_' + bubbles.length,
+				label: 'Me_' + bubbles.length,
 				position: bubbles.length
 			});
 		});
 
 		var self = new Bubble({
 			credentials: {},
-			label: 'Self',
+			label: 'Me',
 			position: 0
 		});
 		bubbles.add(self);
