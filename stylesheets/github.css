@@ -1,0 +1,46 @@
+body{ 
+	padding: 0;
+	margin: 0;
+}
+
+.banner{
+	height: 149px;
+	width: 149px;
+	overflow:hidden;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+.banner a{
+	color: #333;
+	display: block;
+	width: 190px;
+	font-size: 14px;
+	background-color: #333;
+	word-spacing: 2px;
+	text-decoration: none;
+	padding: 5px 15px 5px 25px;
+
+	position:relative;
+	left: 20px;
+	top: -37px;
+	text-align: center;
+
+	-moz-transform-origin: 0 0 ;
+	-moz-transform:rotate(45deg);
+
+	-webkit-transform-origin: 0 0 ;	
+	-webkit-transform:rotate(45deg);
+
+	-ms-transform-origin: 0 0 ;	
+	-ms-transform:rotate(45deg);
+
+	transform-origin: 0 0 ;	
+	transform:rotate(45deg);
+
+	font-size: 12pt;
+	background-image: url(../images/tileable_wood_texture.png);
+}
