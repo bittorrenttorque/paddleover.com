@@ -27,6 +27,18 @@
 		return randomstring;
 	}
 
+	function roundNumber(num, dec) {
+		return Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+	} 
+
+	function humaneSize(fs) {
+		if (fs >= 1073741824) { return roundNumber(fs / 1073741824, 2) + ' GB'; }
+		if (fs >= 1048576)    { return roundNumber(fs / 1048576, 2) + ' MB'; }
+		if (fs >= 1024)       { return roundNumber(fs / 1024, 0) + ' KB'; }
+		return fs + ' B';
+	}; 
+
+
 	function getArgs() {
 		var searchString = document.location.search;
 
@@ -52,10 +64,16 @@
 			this.template = _.template($('#file_template').html());
 		},
 		render: function() {
-			var name = this.model.get('name').replace(/^.*[\\\/]/, '');
+			var date = new Date(this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties').get('added_on') * 1000);
+			var name = this.model.get('properties').get('name').replace(/^.*[\\\/]/, '');
+			var progress = 100.0 * 
+				this.model.get('properties').get('downloaded') / 
+				this.model.get('properties').get('size');
 			this.$el.html(this.template({
 				name: name,
-				progress: 100.0 * this.model.get('downloaded') / this.model.get('size')
+				progress: progress,
+				file_size: humaneSize(this.model.get('properties').get('size')),
+				file_date: humaneDate(date)
 			}));
 			return this;
 		}
@@ -74,8 +92,11 @@
 				this.$el.hide();
 			}, this);
 			
-			this.model.btapp.live('torrent * file * properties', function(file) {
-				var view = new FileView({model:file});
+			this.model.btapp.live('torrent * file *', function(file) {
+				var view = new FileView({
+					model: file,
+				 	btapp: this.model.btapp
+				 });
 				this.$el.append(view.render().el);
 			}, this);
 		}

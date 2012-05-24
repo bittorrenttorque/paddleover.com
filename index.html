@@ -5,12 +5,13 @@
 		<script type="text/javascript" src="javascripts/underscore.js"></script>
 		<script type="text/javascript" src="javascripts/backbone.js"></script>
 		<script type="text/javascript" src="javascripts/backbrace.min.js"></script>
-		<script type="text/javascript" src="javascripts/jstorage.min.js"></script>
+		<script type="text/javascript" src="javascripts/humane.js"></script>
 
 		<script type="text/javascript" src="javascripts/btapp.js"></script>
 		<script type="text/javascript" src="javascripts/client.btapp.js"></script>
 		<script type="text/javascript" src="javascripts/plugin.btapp.js"></script>
 		<script type="text/javascript" src="javascripts/pairing.btapp.js"></script>
+		<script type="text/javascript" src="javascripts/jstorage.min.js"></script>
 
 		<script type="text/javascript" src="javascripts/application.js"></script>
 
@@ -23,12 +24,14 @@
 
 		<!-- TEMPLATES! -->
 		<script type="text/template" id="file_template">
-			<%= name %>
+			<span class="file_name"><%= name %></span>
 			<div class="ui-progress-bar ui-container transition" id="progress_bar">
 				<div class="ui-progress" style="width: <%= progress %>%; ">
 					<span class="ui-label" style="display: none; ">Completed</span>
 				</div>
 			</div>
+			<span class="file_size"><%= file_size %></span>
+			<span class="file_date"><%= file_date %></span>
 		</script>
 
 
