@@ -132,6 +132,7 @@
 			position: 0
 		});
 		bubbles.add(self);
+		self.trigger('show');
 
 		$('.add_bubble').click(function() {
 			if(typeof self.btapp.browseforfiles === 'undefined') return;
