@@ -1,4 +1,44 @@
 (function() {
+    //utility function to wait for some condition
+    //this ends up being helpful as we toggle between a flow chart and a state diagram
+    function when(condition, functionality) {
+        var when_func = function() {
+            if(condition.call()) {
+                functionality.call();
+            } else {
+                setTimeout(when_func, 500);
+            }
+        };
+        _.defer(when_func);
+    }
+
+	function randomString() {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = 0x10;
+		var randomstring = '';
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+		}
+		return randomstring;
+	}
+
+	function getArgs() {
+		var searchString = document.location.search;
+
+		// strip off the leading '?'
+		searchString = searchString.substring(1);
+
+		var nvPairs = searchString.split("&");
+		var ret = {};
+		for (i = 0; i < nvPairs.length; i++)
+		{
+		     var nvPair = nvPairs[i].split("=");
+		     ret[nvPair[0]] = nvPair[1];
+		}
+		return ret;
+	}
+
 	FileView = Backbone.View.extend({
 		tagName: 'div',
 		className: 'file',
@@ -105,7 +145,7 @@
 
 	Bubbles = Backbone.Collection.extend({
 		model: Bubble
-	})
+	});
 
 	jQuery(function() {
 		var bubbles = new Bubbles;
@@ -120,7 +160,10 @@
 
 		$('.add_user').click(function() {
 			bubbles.add({
-				credentials: {},
+				credentials: {
+					username: jQuery.jStorage.get('username'),
+					password: jQuery.jStorage.get('password')
+				},
 				label: 'Self_' + bubbles.length,
 				position: bubbles.length
 			});
@@ -140,9 +183,42 @@
 				if(typeof self.btapp.create === 'undefined') return;
 				self.btapp.create('', _(files).values(), function() {
 					console.log('created');
-				}).then(function() { console.log('called create'); 
+				}).then(function() { console.log('called create')}); 
+			}).then(function() { console.log('called browseforfiles')});
+		});
+
+		when(function() {
+				return typeof self.btapp.connect_remote !== 'undefined';
+			}, function() {
+				console.log('setting up account information');
+				jQuery.jStorage.set('username', randomString());
+				jQuery.jStorage.set('password', randomString());
+
+				console.log('logging in: ' + 
+					jQuery.jStorage.get('username') + 
+					',' + 
+					jQuery.jStorage.get('password')
+				);
+
+				self.btapp.connect_remote(jQuery.jStorage.get('username'), jQuery.jStorage.get('password'));
+			}
+		);
+
+		var args = getArgs();
+		if('name' in args && 'cu' in args && 'cp' in args) {
+			var friend = new Bubble({
+				credentials: {
+					username: args.cu,
+					password: args.cp
+				},
+				label: args.name,
+				position: bubbles.length
 			});
-		}).then(function() { console.log('called browseforfiles')});
-});
+			bubbles.add(friend);
+		} else if(!jQuery.isEmptyObject(args)) {
+			//this is an event. track it...how are we screwing these urls up
+		}
+
+		console.log(JSON.stringify(getArgs()));
 	});
 }).call(this);
