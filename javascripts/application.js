@@ -20,6 +20,12 @@
 		initialize: function() {
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
+			this.model.on('show', function() {
+				this.$el.show();
+			}, this);
+			this.model.on('hide', function() {
+				this.$el.hide();
+			}, this);
 			
 			this.model.btapp.live('torrent * file * properties', function(file) {
 				var view = new FileView({model:file});
@@ -74,9 +80,14 @@
 				this.$el.append(badge.render().el);
 			}, this);
 
-			this.model.btapp.live('torrent * file *', function(file) {
-
-			});
+			this.$el.click(_.bind(function() {
+				this.model.collection.each(function(model) {
+					if(this.model !== model) {
+						model.trigger('hide');
+					}
+				}, this);
+				this.model.trigger('show');
+			}, this));
 		},
 		render: function() {
 			this.$el.empty();
@@ -103,6 +114,7 @@
 			$('.bubble_container').append(view.render().el);
 
 			var contents = new BubbleContentsView({model: bubble});
+			contents.$el.hide();
 			$('.bubble_center').append(contents.render().el);
 		});
 
