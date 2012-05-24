@@ -75,6 +75,7 @@
             model.updateState(session, added, removed, childurl);
             if(model.isEmpty()) {
                 ret[v] = model;
+                model.trigger('destroy');
             }
             return ret;
         },
@@ -270,10 +271,12 @@
             this.on('change', this.customEvents, this);
         },
         destructor: function() {
+            console.log('destructor:' + this.url);
             this.off('change', this.customEvents, this);
             this.trigger('destroy');
         },
         clearState: function() {
+            console.log('clearState:' + this.url);
             this.initializeValues();
             var clone = _.clone(this.attributes);
             delete clone['id'];
