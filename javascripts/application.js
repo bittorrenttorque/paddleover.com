@@ -49,11 +49,14 @@
 		initialize: function() {
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
+			this.template = _.template($('#file_template').html());
 		},
 		render: function() {
-			this.$el.empty();
-			this.$el.append(this.model.get('name').replace(/^.*[\\\/]/, ''));
-			this.$el.append(100.0 * this.model.get('downloaded') / this.model.get('size'));
+			var name = this.model.get('name').replace(/^.*[\\\/]/, '');
+			this.$el.html(this.template({
+				name: name,
+				progress: 100.0 * this.model.get('downloaded') / this.model.get('size')
+			}));
 			return this;
 		}
 	});
