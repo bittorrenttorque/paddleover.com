@@ -53,7 +53,7 @@
 	width: 260px;
 	height: 300px;
 
-	text-align: center;
+	text-align: left;
 	overflow-x: hidden;
 	overflow-y: auto;
 }

@@ -1,4 +1,8 @@
 (function() {
+	function trackEvent(event, arg) {
+		//do something here in the future
+	}
+
     //utility function to wait for some condition
     //this ends up being helpful as we toggle between a flow chart and a state diagram
     function when(condition, functionality) {
@@ -48,7 +52,7 @@
 		},
 		render: function() {
 			this.$el.empty();
-			this.$el.append(this.model.get('name'));
+			this.$el.append(this.model.get('name').replace(/^.*[\\\/]/, ''));
 			this.$el.append(100.0 * this.model.get('downloaded') / this.model.get('size'));
 			return this;
 		}
@@ -217,8 +221,7 @@
 			bubbles.add(friend);
 		} else if(!jQuery.isEmptyObject(args)) {
 			//this is an event. track it...how are we screwing these urls up
+			trackEvent('malformed url', JSON.stringify(args));
 		}
-
-		console.log(JSON.stringify(getArgs()));
 	});
 }).call(this);
