@@ -176,6 +176,7 @@
 	});
 
 	jQuery(function() {
+		debugger;
 		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
 			var view = new BubbleView({model: bubble});
