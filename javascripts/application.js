@@ -62,6 +62,8 @@
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
 			this.template = _.template($('#file_template').html());
+			var properties = this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties');
+			this.$el.data('uri', properties.get('uri'));
 		},
 		render: function() {
 			var date = new Date(this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties').get('added_on') * 1000);
@@ -79,11 +81,6 @@
 				revert: 'invalid',
 				appendTo: 'body',
 				helper: 'clone'
-			});
-			this.$el.droppable({
-				drop: function( event, ui ) {
-					debugger;
-				}
 			});
 			return this;
 		}
@@ -175,11 +172,14 @@
 				}, this),
 				hoverClass: 'ui-state-hover',
 				activeClass: 'ui-state-active',
-				drop: function(event, ui) {
+				drop: _.bind(function(event, ui) {
 					var draggable = ui.draggable;
-					var droppable = $(this);
-					console.log('drop');
-				}
+					var uri = draggable.data('uri');
+					console.log(uri);
+					this.model.btapp.get('add').torrent(uri).then(function() {
+						console.log('torrent added');
+					});
+				}, this)
 			});
 		},
 		render: function() {
@@ -246,16 +246,12 @@
 		when(function() {
 				return typeof self.btapp.connect_remote !== 'undefined';
 			}, function() {
-				console.log('setting up account information');
-				jQuery.jStorage.set('username', randomString());
-				jQuery.jStorage.set('password', randomString());
-
-				console.log('logging in: ' + 
-					jQuery.jStorage.get('username') + 
-					',' + 
-					jQuery.jStorage.get('password')
-				);
-
+				if(!jQuery.jStorage.get('username')) {
+					jQuery.jStorage.set('username', randomString());
+				}
+				if(!jQuery.jStorage.get('password')) {
+					jQuery.jStorage.set('password', randomString());
+				}
 				self.btapp.connect_remote(jQuery.jStorage.get('username'), jQuery.jStorage.get('password'));
 			}
 		);
