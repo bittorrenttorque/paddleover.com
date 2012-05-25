@@ -227,7 +227,7 @@ body{
 
 	animation-name:myfirst;
 	animation-duration:30s;
-	animation-timing-function:ease;
+	animation-timing-function:ease-in-out;
 	animation-delay:0s;
 	animation-iteration-count:infinite;
 	animation-direction:alternate;
@@ -235,7 +235,7 @@ body{
 	/* Firefox: */
 	-moz-animation-name:myfirst;
 	-moz-animation-duration:30s;
-	-moz-animation-timing-function:ease;
+	-moz-animation-timing-function:ease-in-out;
 	-moz-animation-delay:0s;
 	-moz-animation-iteration-count:infinite;
 	-moz-animation-direction:alternate;
@@ -243,7 +243,7 @@ body{
 	/* Safari and Chrome: */
 	-webkit-animation-name:myfirst;
 	-webkit-animation-duration:30s;
-	-webkit-animation-timing-function:ease;
+	-webkit-animation-timing-function:ease-in-out;
 	-webkit-animation-delay:0s;
 	-webkit-animation-iteration-count:infinite;
 	-webkit-animation-direction:alternate;
