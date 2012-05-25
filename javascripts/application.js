@@ -168,7 +168,9 @@
 				greedy: 'true',
 				accept: _.bind(function(draggable) {
 					return this.model.btapp.has('add');
-				}, this)
+				}, this),
+				hoverClass: 'ui-state-hover',
+				activeClass: 'ui-state-active'
 			});
 		},
 		render: function() {
@@ -202,7 +204,7 @@
 		});
 
 		$('.add_user').click(function() {
-			bubbles.add({
+			var bubble = new Bubble({
 				credentials: {
 					username: jQuery.jStorage.get('username'),
 					password: jQuery.jStorage.get('password')
@@ -210,6 +212,8 @@
 				label: 'Me_' + bubbles.length,
 				position: bubbles.length
 			});
+			bubbles.add(bubble);
+			bubble.trigger('hide');
 		});
 
 		var self = new Bubble({

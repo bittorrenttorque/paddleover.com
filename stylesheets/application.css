@@ -210,18 +210,12 @@
 	font-size: 40pt;
 }
 
-
+.ui-state-active {
+	background: #fff;
+}
 
 .ui-state-hover {
-	color: pink;
-}
-
-.ui-state-active {
-	color: yellow;
-}
-
-.ui-state-highlight {
-	color: green;
+	background: #f8f8d0;
 }
 
 html{background: #77d5fb url('../images/bottom_bg.jpg') bottom center no-repeat;}
@@ -229,6 +223,49 @@ body{
 	background: transparent url('../images/top_bg.png') top center no-repeat;
 	font-size: 16px;
 	margin: 0 0;
+
+
+	animation-name:myfirst;
+	animation-duration:30s;
+	animation-timing-function:ease;
+	animation-delay:0s;
+	animation-iteration-count:infinite;
+	animation-direction:alternate;
+	animation-play-state:running;
+	/* Firefox: */
+	-moz-animation-name:myfirst;
+	-moz-animation-duration:30s;
+	-moz-animation-timing-function:ease;
+	-moz-animation-delay:0s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-direction:alternate;
+	-moz-animation-play-state:running;
+	/* Safari and Chrome: */
+	-webkit-animation-name:myfirst;
+	-webkit-animation-duration:30s;
+	-webkit-animation-timing-function:ease;
+	-webkit-animation-delay:0s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-direction:alternate;
+	-webkit-animation-play-state:running;
+}
+
+@keyframes myfirst
+{
+0%   {background-position: 0% 0%;}
+100% {background-position: 100% 0%;}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+0%   {background-position: 0% 0%;}
+100% {background-position: 100% 0%;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+0%   {background-position: 0% 0%;}
+100% {background-position: 100% 0%;}
 }
 
 .navbar-inner {

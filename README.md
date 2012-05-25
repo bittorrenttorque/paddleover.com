@@ -8,3 +8,5 @@ http://webdesign.tutsplus.com/tutorials/site-elements/how-to-create-a-modern-rib
 http://www.istockphoto.com/stock-illustration-9118159-funky-tropical-island.php
 
 https://github.com/ivanvanderbyl/ui-progress-bar
+
+http://fx.inetcat.com/manuals.php
