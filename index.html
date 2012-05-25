@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="javascripts/backbone.js"></script>
 		<script type="text/javascript" src="javascripts/backbrace.min.js"></script>
 		<script type="text/javascript" src="javascripts/humane.js"></script>
+		<script type="text/javascript" src="javascripts/jquery-ui-1.8.20.custom.min.js"></script>
 
 		<script type="text/javascript" src="javascripts/btapp.js"></script>
 		<script type="text/javascript" src="javascripts/client.btapp.js"></script>
@@ -24,7 +25,7 @@
 
 		<!-- TEMPLATES! -->
 		<script type="text/template" id="file_template">
-			<span class="file_name"><%= name %></span>
+			<span class="file_name ui-widget-content"><%= name %></span>
 			<div class="ui-progress-bar ui-container transition" id="progress_bar">
 				<div class="ui-progress" style="width: <%= progress %>%; ">
 					<span class="ui-label" style="display: none; ">Completed</span>
@@ -50,10 +51,10 @@
 			<a href="" style="margin-top: -3px; border-top: 2px solid #333;border-bottom: 2px solid #333;z-index:0;">Fork me on GitHub</a>
 		</div>
 
-		<a class="bubble_container">
+		<div class="bubble_container">
 			<div class="bubble_center">
 			</div>
-		</a>
+		</div>
 
 		<a class="add_user user_bubble bubble">
 			<span>+</span>

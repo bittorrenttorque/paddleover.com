@@ -75,6 +75,12 @@
 				file_size: humaneSize(this.model.get('properties').get('size')),
 				file_date: humaneDate(date)
 			}));
+			this.$el.draggable({
+				revert: 'invalid',
+				appendTo: 'body',
+				helper: 'clone'
+			});
+			this.$el.droppable();
 			return this;
 		}
 	});
@@ -156,6 +162,11 @@
 				}, this);
 				this.model.trigger('show');
 			}, this));
+
+			this.$el.droppable({
+				tolerance: 'pointer',
+				greedy: 'true'
+			});
 		},
 		render: function() {
 			this.$el.empty();

@@ -212,6 +212,17 @@
 
 
 
+.ui-state-hover {
+	color: pink;
+}
+
+.ui-state-active {
+	color: yellow;
+}
+
+.ui-state-highlight {
+	color: green;
+}
 
 html{background: #77d5fb url('../images/bottom_bg.jpg') bottom center no-repeat;}
 body{
