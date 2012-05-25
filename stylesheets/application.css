@@ -12,6 +12,14 @@
 	font-size: 8pt;
 }
 
+.file_name {
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100%;
+	white-space: nowrap;  
+}
+
 .bubble_container {
 	position: absolute;
 	width: 600px;
