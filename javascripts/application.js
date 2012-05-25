@@ -243,18 +243,50 @@
 			}).then(function() { console.log('called browseforfiles')});
 		});
 
-		when(function() {
-				return typeof self.btapp.connect_remote !== 'undefined';
-			}, function() {
-				if(!jQuery.jStorage.get('username')) {
-					jQuery.jStorage.set('username', randomString());
-				}
-				if(!jQuery.jStorage.get('password')) {
-					jQuery.jStorage.set('password', randomString());
-				}
-				self.btapp.connect_remote(jQuery.jStorage.get('username'), jQuery.jStorage.get('password'));
+		(function(btapp) {
+			//make sure that we have credentials available
+			if(!jQuery.jStorage.get('username')) {
+				jQuery.jStorage.set('username', randomString());
 			}
-		);
+			if(!jQuery.jStorage.get('password')) {
+				jQuery.jStorage.set('password', randomString());
+			}
+			var username = jQuery.jStorage.get('username');
+			var password = jQuery.jStorage.get('password');
+			when(function() {
+					return typeof btapp.connect_remote !== 'undefined' && self.btapp.has('settings');
+				}, function() {
+					var connected = btapp.get('settings').get('webui.uconnect_enable') === 'true';
+					var matching = btapp.get('settings').get('webui.uconnect_username') === username;
+					if(!connected || !matching) {
+						console.log('connect_remote(' + username + ',' + password + ')');
+						btapp.connect_remote(username, password);
+					} else {
+						console.log('already connected as ' + username);
+					}
+				}
+			);
+		}(self.btapp));
+
+		//hook up the social media buttons to the correct links
+
+		//twitter
+		(function() {
+			var link = 'http://paddleover.com?name=pwmckenna&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
+			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
+			$('.twitter_bubble').attr('href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(link) + '&text=' + text);
+		}());
+
+		$('.fb_bubble').click(function() {
+			var link = 'http://paddleover.com?name=pwmckenna&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
+			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
+			FB.init({appId: '353964634659536', xfbml: true, cookie: true});
+			FB.ui({
+				method: 'send',
+				name: text,
+				link: link
+			});
+		});
 
 		var args = getArgs();
 		if('name' in args && 'cu' in args && 'cp' in args) {

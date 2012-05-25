@@ -8,6 +8,10 @@
 		<script type="text/javascript" src="javascripts/humane.js"></script>
 		<script type="text/javascript" src="javascripts/jquery-ui-1.8.20.custom.min.js"></script>
 
+		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+		<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js"></script>
+
+
 		<script type="text/javascript" src="javascripts/btapp.js"></script>
 		<script type="text/javascript" src="javascripts/client.btapp.js"></script>
 		<script type="text/javascript" src="javascripts/plugin.btapp.js"></script>
@@ -21,9 +25,10 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/github.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/application.css" />
 
-		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+		<title>Paddle Over</title>
 	</head>
 	<body>
+	    <div id="fb-root"></div>
 
 		<!-- TEMPLATES! -->
 		<script type="text/template" id="file_template">
@@ -61,7 +66,7 @@
 		<a class="add_bubble bubble">
 			<span>+</span>
 		</a>
-		<a class="twitter_bubble bubble social_bubble">
+		<a class="twitter_bubble bubble social_bubble" href="">
 			<img src="images/twitter_newbird_white.png" />
 		</a>
 		<a class="fb_bubble bubble social_bubble">
@@ -74,7 +79,7 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<span class="brand" href="#">
+					<span class="brand">
 						Paddle Over
 					</span>
 				</div>
@@ -83,14 +88,15 @@
 		<div class="navbar navbar-fixed-bottom">
 			<div class="navbar-inner">
 				<div class="container">
-					<span class="brand" href="#">
+					<span class="brand">
 						Powered By <a href="http://github.com/pwmckenna/btapp/">Btapp.js</a> + <a href="http://torque.bittorrent.com">Torque</a>
 					</span>
-					<span class="brand nav pull-right" href="#">
+					<span class="brand nav pull-right">
 						Blog: <a href="http://pwmckenna.github.com/2012/05/20/twitter-link.html">The Making of Paddle Over</a>
 					</span>
 				</div>
 			</div>
 		</div>
+
 	</body>
 </html>
