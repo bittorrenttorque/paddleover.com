@@ -165,7 +165,10 @@
 
 			this.$el.droppable({
 				tolerance: 'pointer',
-				greedy: 'true'
+				greedy: 'true',
+				accept: _.bind(function(draggable) {
+					return this.model.btapp.has('add');
+				}, this)
 			});
 		},
 		render: function() {
