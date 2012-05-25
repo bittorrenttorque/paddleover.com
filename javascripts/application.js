@@ -80,7 +80,11 @@
 				appendTo: 'body',
 				helper: 'clone'
 			});
-			this.$el.droppable();
+			this.$el.droppable({
+				drop: function( event, ui ) {
+					debugger;
+				}
+			});
 			return this;
 		}
 	});
@@ -170,7 +174,12 @@
 					return this.model.btapp.has('add');
 				}, this),
 				hoverClass: 'ui-state-hover',
-				activeClass: 'ui-state-active'
+				activeClass: 'ui-state-active',
+				drop: function(event, ui) {
+					var draggable = ui.draggable;
+					var droppable = $(this);
+					console.log('drop');
+				}
 			});
 		},
 		render: function() {

@@ -13,10 +13,6 @@
 }
 
 .file_name {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	overflow: hidden;
-	width: 100%;
 	white-space: nowrap;  
 }
 
