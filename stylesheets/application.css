@@ -227,6 +227,7 @@ body{
 	background: transparent url('../images/top_bg.png') top center no-repeat;
 	font-size: 16px;
 	margin: 0 0;
+	line-height: 17px;
 
 
 	animation-name:myfirst;
