@@ -283,6 +283,8 @@
 			FB.init({appId: '353964634659536', xfbml: true, cookie: true});
 			FB.ui({
 				method: 'send',
+				picture: 'http://paddleover.com/images/icon.png',
+				description: 'asdfasdfasd',
 				name: text,
 				link: link
 			});
