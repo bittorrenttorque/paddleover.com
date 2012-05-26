@@ -64,6 +64,7 @@
 			this.template = _.template($('#file_template').html());
 			var properties = this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties');
 			this.$el.data('uri', properties.get('uri'));
+			this.$el.data('torrent', this.model.get('torrent'));
 		},
 		render: function() {
 			var date = new Date(this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties').get('added_on') * 1000);
@@ -168,14 +169,18 @@
 				tolerance: 'pointer',
 				greedy: 'true',
 				accept: _.bind(function(draggable) {
-					return this.model.btapp.has('add');
+					var addable = this.model.btapp.has('add');
+					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(draggable.data('torrent'));
+					return addable && !duplicate;
 				}, this),
 				hoverClass: 'ui-state-hover',
 				activeClass: 'ui-state-active',
 				drop: _.bind(function(event, ui) {
 					var draggable = ui.draggable;
 					var uri = draggable.data('uri');
+					var torrent = draggable.data('torrent');
 					console.log(uri);
+					console.log(torrent);
 					this.model.btapp.get('add').torrent(uri).then(function() {
 						console.log('torrent added');
 					});
