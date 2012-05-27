@@ -24,6 +24,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/github.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/application.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/welcome.css" />
 
 		<link rel="icon" 
 		      type="image/png" 
@@ -101,5 +102,37 @@
 			</div>
 		</div>
 
+
+		<script type="text/template" id="welcome_name_template">
+			<div class="contents">
+				<h3>Welcome to Paddle Over!</h3>
+				<h3>What is your name?</h3>
+				<div class="subnote">When people see your shared files, this is the name they will see sharing it</div>
+				<form class="form-horizontal">
+					<input class="auto-focus" type="text" placeholder="Brigatocious Esquire" size="10">
+					<a href="#" class="btn btn-primary">Next</a>
+				</form>
+			</div>
+		</script>
+		<script type="text/template" id="welcome_install_template">
+			<div class="contents">
+				<h3>Thanks <%= name %>!</h3>
+				<span>Now we need to install the browser plugin that powers everything</span><br>
+				<a href="<%= url %>" class="btn btn-primary">Download</a>
+			</div>
+		</script>
+		<script type="text/template" id="welcome_explaination_template">
+			<div class="contents">
+				<h3>You're Ready to Roll!</h3>
+<% if(typeof(friend) !== 'undefined') { %>
+				<div class="explanation subnote">Keep in mind that while you can already see <%= friend %>'s files, no one can see yours until you give access them access using the social media buttons</div>
+<% } else { %>
+				<div class="explanation subnote">Note that you can't see other people's files until they share access via the social media buttons. To get started, let someone have access to yours by sending a message via Facebook, Twitter, or email. Enjoy!
+<% } %>
+				<form class="form-horizontal">
+					<a href="#" class="btn btn-primary">Dive In!</a>
+				</form>
+			</div>
+		</script>
 	</body>
 </html>

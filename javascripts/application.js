@@ -1,8 +1,4 @@
 (function() {
-	function trackEvent(event, arg) {
-		//do something here in the future
-	}
-
     //utility function to wait for some condition
     //this ends up being helpful as we toggle between a flow chart and a state diagram
     function when(condition, functionality) {
@@ -15,7 +11,7 @@
         };
         _.defer(when_func);
     }
-
+    
 	function randomString() {
 		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 		var string_length = 0x10;
@@ -151,10 +147,10 @@
 			this.$el.css('left', x + 'px');
 			this.$el.css('top', y + 'px');
 
-			this.model.btapp.on('add:torrent', function(torrents) {
+			this.model.btapp.on('add:torrent', _.bind(function(torrents) {
 				var badge = new BadgeView({model: torrents});
 				this.$el.append(badge.render().el);
-			}, this);
+			}, this));
 
 			this.$el.click(_.bind(function() {
 				this.model.collection.each(function(model) {
@@ -205,8 +201,121 @@
 		model: Bubble
 	});
 
+	WelcomeNameView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'welcome_name_frame welcome_frame',
+		events: {
+			'click .btn-primary': 'click',
+			'submit': 'click'
+		},
+		initialize: function() {
+			this.template = _.template($('#welcome_name_template').html());
+			$('.nameinput').focus();
+			$('.nameinput').hide();
+		},
+		render: function() {
+			this.$el.html(this.template({}));
+			return this;
+		},
+		click: function(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			var name = this.$('input').val();
+			if(name.length > 0) {
+				jQuery.jStorage.set('name', name);
+				this.remove();
+				this.model.trigger('next');
+			} else {
+
+			}
+		}
+	});
+
+	WelcomeInstallView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'welcome_install_frame welcome_frame',
+		initialize: function() {
+			this.template = _.template($('#welcome_install_template').html());
+            this.plugin_manager = new PluginManager();
+            this.plugin_manager.on('plugin:plugin_installed', _.bind(function() {
+            	this.remove();
+            	this.model.trigger('next');
+            }, this));
+		},
+		render: function() {
+			this.$el.html(this.template({
+				name: jQuery.jStorage.get('name'),
+				url: this.plugin_manager.get('download_url')
+			}));
+			return this;
+		}
+	});
+
+	WelcomeExplainationView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'welcome_explanation_frame welcome_frame',
+		events: {
+			'click .btn-primary': 'click'
+		},
+		initialize: function() {
+			this.template = _.template($('#welcome_explaination_template').html());
+		},
+		render: function() {
+			this.$el.html(this.template({
+				friend: getArgs()['name']
+			}));
+			return this;
+		},
+		click: function() {
+			this.remove();
+			this.model.trigger('next');
+		}
+	});
+
+	function setupRemote(btapp) {
+		//make sure that we have credentials available
+		if(!jQuery.jStorage.get('username')) {
+			jQuery.jStorage.set('username', randomString());
+		}
+		if(!jQuery.jStorage.get('password')) {
+			jQuery.jStorage.set('password', randomString());
+		}
+		var username = jQuery.jStorage.get('username');
+		var password = jQuery.jStorage.get('password');
+		when(function() {
+				return typeof btapp.connect_remote !== 'undefined' && btapp.has('settings');
+			}, function() {
+				var connected = btapp.get('settings').get('webui.uconnect_enable') === 'true';
+				var matching = btapp.get('settings').get('webui.uconnect_username') === username;
+				if(!connected || !matching) {
+					console.log('connect_remote(' + username + ',' + password + ')');
+					btapp.connect_remote(username, password);
+				} else {
+					console.log('already connected as ' + username);
+				}
+			}
+		);
+	}
+
+	function setupAddBubble(btapp) {
+		$('.add_bubble').click(function() {
+			if(typeof btapp.browseforfiles === 'undefined') return;
+			btapp.browseforfiles(function(files) {
+				if(typeof btapp.create === 'undefined') return;
+				var files = _(files).values();
+				if(files.length == 0) return;
+				btapp.create('', files, function() {
+					console.log('created');
+				}).then(function() { console.log('called create')}); 
+			}).then(function() { console.log('called browseforfiles')});
+		});
+	}
+
+
+
 	jQuery(function() {
-		debugger;
+		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').hide();
+
 		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
 			var view = new BubbleView({model: bubble});
@@ -230,51 +339,6 @@
 			bubble.trigger('hide');
 		});
 
-		var self = new Bubble({
-			credentials: {},
-			label: 'Me',
-			position: 0
-		});
-		bubbles.add(self);
-		self.trigger('show');
-
-		$('.add_bubble').click(function() {
-			if(typeof self.btapp.browseforfiles === 'undefined') return;
-			self.btapp.browseforfiles(function(files) {
-				if(typeof self.btapp.create === 'undefined') return;
-				self.btapp.create('', _(files).values(), function() {
-					console.log('created');
-				}).then(function() { console.log('called create')}); 
-			}).then(function() { console.log('called browseforfiles')});
-		});
-
-		(function(btapp) {
-			//make sure that we have credentials available
-			if(!jQuery.jStorage.get('username')) {
-				jQuery.jStorage.set('username', randomString());
-			}
-			if(!jQuery.jStorage.get('password')) {
-				jQuery.jStorage.set('password', randomString());
-			}
-			var username = jQuery.jStorage.get('username');
-			var password = jQuery.jStorage.get('password');
-			when(function() {
-					return typeof btapp.connect_remote !== 'undefined' && self.btapp.has('settings');
-				}, function() {
-					var connected = btapp.get('settings').get('webui.uconnect_enable') === 'true';
-					var matching = btapp.get('settings').get('webui.uconnect_username') === username;
-					if(!connected || !matching) {
-						console.log('connect_remote(' + username + ',' + password + ')');
-						btapp.connect_remote(username, password);
-					} else {
-						console.log('already connected as ' + username);
-					}
-				}
-			);
-		}(self.btapp));
-
-		//hook up the social media buttons to the correct links
-
 		//twitter
 		(function() {
 			var link = 'http://paddleover.com?name=pwmckenna&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
@@ -296,20 +360,55 @@
 			});
 		});
 
-		var args = getArgs();
-		if('name' in args && 'cu' in args && 'cp' in args) {
-			var friend = new Bubble({
-				credentials: {
-					username: args.cu,
-					password: args.cp
-				},
-				label: args.name,
-				position: bubbles.length
+		function start() {
+			var self = new Bubble({
+				credentials: {},
+				label: jQuery.jStorage.get('name'),
+				position: 0
 			});
-			bubbles.add(friend);
-		} else if(!jQuery.isEmptyObject(args)) {
-			//this is an event. track it...how are we screwing these urls up
-			trackEvent('malformed url', JSON.stringify(args));
+			setupRemote(self.btapp);
+			bubbles.add(self);
+			self.trigger('show');
+			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').show();
+			setupAddBubble(self.btapp);
+
+			var args = getArgs();
+			if('name' in args && 'cu' in args && 'cp' in args) {
+				var friend = new Bubble({
+					credentials: {
+						username: args.cu,
+						password: args.cp
+					},
+					label: args.name,
+					position: bubbles.length
+				});
+				bubbles.add(friend);
+			}
 		}
+
+		if(jQuery.jStorage.get('welcomed') === true) {
+			start();
+		} else {
+			var namemodel = new Backbone.Model;
+			var installmodel = new Backbone.Model;
+			var explainationmodel = new Backbone.Model;
+
+			var welcomenameview = new WelcomeNameView({model: namemodel});
+			$('body').append(welcomenameview.render().el);
+
+			var show_install = function() {
+				var welcomeinstallview = new WelcomeInstallView({model: installmodel});
+				$('body').append(welcomeinstallview.render().el);
+			};
+			var show_explaination = function() {
+				var welcomeexplainationview = new WelcomeExplainationView({model: explainationmodel});
+				$('body').append(welcomeexplainationview.render().el);
+			};
+
+			namemodel.on('next', show_install);
+			installmodel.on('next', show_explaination);
+			explainationmodel.on('next', start);
+		}
+		$('.auto-focus:first').focus();		
 	});
 }).call(this);
