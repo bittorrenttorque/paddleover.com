@@ -140,9 +140,9 @@
 			//r = radius of each bubble
 			//R = radius of the container
 			//r = (R * pi) / (16 + pi)
-			var angle = (i - 4) / 8.0 * Math.PI;
-			var x = 250 * Math.cos(angle) + 300;
-			var y = 250 * Math.sin(angle) + 300;
+			var angle = (i - 3.75) / 7.5 * Math.PI;
+			var x = 255 * Math.cos(angle) + 310;
+			var y = 255 * Math.sin(angle) + 310;
 
 			this.$el.css('left', x + 'px');
 			this.$el.css('top', y + 'px');
@@ -151,6 +151,15 @@
 				var badge = new BadgeView({model: torrents});
 				this.$el.append(badge.render().el);
 			}, this));
+
+
+			this.model.on('show', function() {
+				this.$el.addClass('selected');
+			}, this);
+			this.model.on('hide', function() {
+				this.$el.removeClass('selected');
+			}, this);
+
 
 			this.$el.click(_.bind(function() {
 				this.model.collection.each(function(model) {
@@ -210,8 +219,6 @@
 		},
 		initialize: function() {
 			this.template = _.template($('#welcome_name_template').html());
-			$('.nameinput').focus();
-			$('.nameinput').hide();
 		},
 		render: function() {
 			this.$el.html(this.template({}));
@@ -235,11 +242,15 @@
 		tagName: 'div',
 		className: 'welcome_install_frame welcome_frame',
 		initialize: function() {
+			this.$el.hide();
 			this.template = _.template($('#welcome_install_template').html());
             this.plugin_manager = new PluginManager();
             this.plugin_manager.on('plugin:plugin_installed', _.bind(function() {
             	this.remove();
             	this.model.trigger('next');
+            }, this));
+            this.plugin_manager.on('plugin:install_plugin', _.bind(function() {
+            	this.$el.show();
             }, this));
 		},
 		render: function() {
@@ -255,7 +266,8 @@
 		tagName: 'div',
 		className: 'welcome_explanation_frame welcome_frame',
 		events: {
-			'click .btn-primary': 'click'
+			'click .btn-primary': 'click',
+			'submit': 'click'
 		},
 		initialize: function() {
 			this.template = _.template($('#welcome_explaination_template').html());
@@ -386,7 +398,7 @@
 			}
 		}
 
-		if(jQuery.jStorage.get('welcomed') === true) {
+		if(jQuery.jStorage.get('welcomed') !== true) {
 			start();
 		} else {
 			var namemodel = new Backbone.Model;
@@ -409,6 +421,6 @@
 			installmodel.on('next', show_explaination);
 			explainationmodel.on('next', start);
 		}
-		$('.auto-focus:first').focus();		
+		$('.auto-focus:first').focus();
 	});
 }).call(this);
