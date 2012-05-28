@@ -102,6 +102,14 @@
 	border-radius: 50px;
 	color: #555;
 	box-shadow: inset -4px -4px 8px 4px #e3e3e3;
+	display: table;
+}
+
+.user_bubble p {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 18px;
 }
 
 .user_bubble:hover, .add_bubble:hover {

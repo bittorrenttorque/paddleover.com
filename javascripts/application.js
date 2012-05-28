@@ -179,7 +179,6 @@
 				tolerance: 'pointer',
 				greedy: 'true',
 				accept: _.bind(function(draggable) {
-					return true;
 					var addable = this.model.btapp.has('add');
 					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(draggable.data('torrent'));
 					return addable && !duplicate;
@@ -200,7 +199,9 @@
 		},
 		render: function() {
 			this.$el.empty();
-			this.$el.append(this.model.get('label'));
+			var name = $('<p></p>');
+			name.text(this.model.get('label'));
+			this.$el.append(name);
 			this.$el.append(this.badge.render().el);
 			return this;
 		}
@@ -208,8 +209,12 @@
 
 	Bubble = Backbone.Model.extend({
 		initialize: function() {
-			this.btapp = new Btapp;
-			this.btapp.connect(this.get('credentials'));
+			if(this.has('btapp')) {
+				this.btapp = this.get('btapp');
+			} else {
+				this.btapp = new Btapp;
+				this.btapp.connect(this.get('credentials'));
+			}
 		}
 	});
 
@@ -331,7 +336,57 @@
 		});
 	}
 
+	function displayWelcome(callback) {
+		var namemodel = new Backbone.Model;
+		var installmodel = new Backbone.Model;
+		var explainationmodel = new Backbone.Model;
 
+		var welcomenameview = new WelcomeNameView({model: namemodel});
+		$('body').append(welcomenameview.render().el);
+
+		var show_install = function() {
+			var welcomeinstallview = new WelcomeInstallView({model: installmodel});
+			$('body').append(welcomeinstallview.render().el);
+		};
+		var show_explaination = function() {
+			var welcomeexplainationview = new WelcomeExplainationView({model: explainationmodel});
+			$('body').append(welcomeexplainationview.render().el);
+		};
+
+		namemodel.on('next', show_install);
+		installmodel.on('next', show_explaination);
+		explainationmodel.on('next', callback);
+	}
+
+	function addDefaultBubble(bubbles, name) {
+		var bubble = new Bubble({
+			btapp: new Backbone.Model({
+				torrent: new Backbone.Collection([
+					new Backbone.Model({
+						id: '2110c7b4fa045f62d33dd0e01dd6f5bc15902179',
+						file: new Backbone.Collection([
+							new Backbone.Model({
+								id: 'Counting%20Crows%20-%20Underwater%20Sunshine%20-%20Liner%20Notes.pdf',
+								torrent: '2110c7b4fa045f62d33dd0e01dd6f5bc15902179',
+								properties: new Backbone.Model({
+									name: 'Counting Crows - Photos - The Band - 1.jpg',
+									size: 181281
+								})
+							}),
+						]),
+						properties: new Backbone.Model({
+							uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
+							added_on: new Date()
+						})
+					})
+				])
+			}),
+			label: name,
+			position: bubbles.length
+		});
+		bubbles.add(bubble);
+		bubble.trigger('hide');
+	}
 
 	jQuery(function() {
 		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').hide();
@@ -392,6 +447,11 @@
 			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').show();
 			setupAddBubble(self.btapp);
 
+			addDefaultBubble(bubbles, '80 Proof');
+			addDefaultBubble(bubbles, 'Counting Crows');
+			addDefaultBubble(bubbles, 'Pretty Lights')
+
+			//add the friend if there was one provided as url args
 			var args = getArgs();
 			if('name' in args && 'cu' in args && 'cp' in args) {
 				var friend = new Bubble({
@@ -411,25 +471,7 @@
 		if(jQuery.jStorage.get('welcomed') === true) {
 			start();
 		} else {
-			var namemodel = new Backbone.Model;
-			var installmodel = new Backbone.Model;
-			var explainationmodel = new Backbone.Model;
-
-			var welcomenameview = new WelcomeNameView({model: namemodel});
-			$('body').append(welcomenameview.render().el);
-
-			var show_install = function() {
-				var welcomeinstallview = new WelcomeInstallView({model: installmodel});
-				$('body').append(welcomeinstallview.render().el);
-			};
-			var show_explaination = function() {
-				var welcomeexplainationview = new WelcomeExplainationView({model: explainationmodel});
-				$('body').append(welcomeexplainationview.render().el);
-			};
-
-			namemodel.on('next', show_install);
-			installmodel.on('next', show_explaination);
-			explainationmodel.on('next', start);
+			displayWelcome(start);
 		}
 		$('.auto-focus:first').focus();
 	});
