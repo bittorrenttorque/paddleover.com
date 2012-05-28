@@ -183,7 +183,7 @@
 					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(draggable.data('torrent'));
 					return addable && !duplicate;
 				}, this),
-				hoverClass: 'ui-state-hover',
+				hoverClass: 'ui-state-hover hover',
 				activeClass: 'ui-state-active',
 				drop: _.bind(function(event, ui) {
 					var draggable = ui.draggable;
@@ -280,7 +280,8 @@
 		},
 		render: function() {
 			this.$el.html(this.template({
-				friend: getArgs()['name']
+				friend: getArgs()['name'],
+				name: jQuery.jStorage.get('name')
 			}));
 			return this;
 		},
