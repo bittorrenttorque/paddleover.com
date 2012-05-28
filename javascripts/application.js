@@ -179,6 +179,7 @@
 				tolerance: 'pointer',
 				greedy: 'true',
 				accept: _.bind(function(draggable) {
+					return true;
 					var addable = this.model.btapp.has('add');
 					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(draggable.data('torrent'));
 					return addable && !duplicate;

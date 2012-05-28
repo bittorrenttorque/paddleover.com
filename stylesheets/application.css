@@ -104,7 +104,7 @@
 	box-shadow: inset -4px -4px 8px 4px #e3e3e3;
 }
 
-.user_bubble:hover {
+.user_bubble:hover, .add_bubble:hover {
 	background-image: -ms-linear-gradient(top, #FFF68F, #FFFFAA);
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF68F), to(#FFFFAA));
 	background-image: -webkit-linear-gradient(top, #FFF68F, #FFFFAA);
@@ -116,6 +116,9 @@
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#FFF68F', endColorstr='#FFFFAA', GradientType=0);
 	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
+
+.user_bubble:hover {
 	box-shadow: inset -4px -4px 18px 4px #FFFACD;
 }
 
@@ -124,7 +127,7 @@
 	box-shadow: inset -4px -4px 18px 4px orange;
 }
 
-.user_bubble.selected {
+.user_bubble.selected, .add_bubble {
 	background-color: #FFFACD;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 }
@@ -137,23 +140,7 @@
 .add_bubble {
 	left: 12%;
 	top: 50%;
-	color: #888;
-	background-color: #FFFF00;
-	box-shadow: inset -4px -4px 18px 4px orange;
-}
-
-.add_bubble:hover {
-	background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-	background-image: -webkit-linear-gradient(top, #8B2500, #FF6347);
-	background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-	background-image: linear-gradient(top, #ee5f5b, #bd362f);
-	background-repeat: repeat-x;
-	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
-	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+	box-shadow: 0px 0px 3px 3px #2f96b4;
 }
 
 .social_bubble {
