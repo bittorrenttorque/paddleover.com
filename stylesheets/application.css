@@ -110,6 +110,7 @@
   vertical-align: middle;
   text-align: center;
   font-size: 18px;
+  padding: 0 5px;
 }
 
 .user_bubble:hover, .add_bubble:hover {
@@ -138,6 +139,23 @@
 .user_bubble.selected, .add_bubble {
 	background-color: #FFFACD;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
+}
+
+.countingcrows {
+	background-color: #fff;
+	background-image: url('../images/countingcrows.png');
+	background-repeat: no-repeat;
+	background-position: 2px;
+}
+
+.deathgrips {
+	background-image: url('../images/deathgrips.png');
+}
+
+.prettylights {
+	background-image: url('../images/prettylights.png');
+	background-repeat: no-repeat;
+	background-position: 2px;
 }
 
 .add_user {

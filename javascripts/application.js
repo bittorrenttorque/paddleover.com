@@ -119,11 +119,11 @@
 					this.render();
 				}, this));
 			}, this));
-			this.model.on('add:torrent', _.bind(function() {
+			this.model.live('torrent', _.bind(function(torrent) {
 				this.$el.addClass('badge-info');
-			}, this));
-			this.model.on('remove:torrent', _.bind(function() {
-				this.$el.removeClass('badge-info');
+				torrent.on('destroy', _.bind(function() {
+					this.$el.removeClass('badge-info');
+				}, this));
 			}, this));
 		},
 		render: function() {
@@ -203,6 +203,7 @@
 			name.text(this.model.get('label'));
 			this.$el.append(name);
 			this.$el.append(this.badge.render().el);
+			this.$el.addClass(this.model.get('style'));
 			return this;
 		}
 	});
@@ -358,7 +359,7 @@
 		explainationmodel.on('next', callback);
 	}
 
-	function addDefaultBubble(bubbles, name) {
+	function addDefaultBubble(bubbles, torrent, style) {
 		var bubble = new Bubble({
 			btapp: new Backbone.Model({
 				torrent: new Backbone.Collection([
@@ -381,7 +382,7 @@
 					})
 				])
 			}),
-			label: name,
+			style: style,
 			position: bubbles.length
 		});
 		bubbles.add(bubble);
@@ -447,9 +448,21 @@
 			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').show();
 			setupAddBubble(self.btapp);
 
-			addDefaultBubble(bubbles, '80 Proof');
-			addDefaultBubble(bubbles, 'Counting Crows');
-			addDefaultBubble(bubbles, 'Pretty Lights')
+			addDefaultBubble(
+				bubbles, 
+				'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
+				'countingcrows'
+			);
+			addDefaultBubble(
+				bubbles, 
+				'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
+				'deathgrips'
+			);
+			addDefaultBubble(
+				bubbles, 
+				'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
+				'prettylights'
+			);
 
 			//add the friend if there was one provided as url args
 			var args = getArgs();
