@@ -1,0 +1,68 @@
+.welcome_frame {
+	position: absolute;
+	left: 50%;
+	width: 400px;
+	margin-left: -200px;
+	top: 50%;
+	height: 250px;
+	margin-top: -125px;
+	background: ;
+	background-image: url(../images/tileable_wood_texture.png);
+	text-align: center;
+	border: 2px solid #888;
+}
+
+.welcome_frame .contents {
+	position: absolute;
+	background-color: #fefefe;
+	top: 30px;
+	right: 30px;
+	bottom: 30px;
+	left: 30px;
+	padding: 20px;
+	border: 1px solid #aaa;
+}
+
+.welcome_frame form {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.welcome_frame input {
+	height: 28px;
+	line-height: 28px;
+}
+
+.welcome_name_frame .subnote {
+	padding: 0px 40px;
+	font-size: 9pt;
+	font-style: italic;
+}
+
+.welcome_name_frame h3 {
+	padding: 5px 0;
+}
+
+.welcome_install_frame h3 {
+	padding: 15px 0;
+}
+
+.welcome_install_frame a {
+	margin: 20px 0;
+}
+
+.welcome_explanation_frame .explanation {
+	text-align: left;
+	font-size: 9pt;
+	font-style: italic;
+}
+
+.welcome_explanation_frame h3 {
+	padding-bottom: 15px;
+}
+
+.welcome_explanation_frame a {
+	margin: 10px 0;
+}
