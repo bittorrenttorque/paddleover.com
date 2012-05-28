@@ -402,9 +402,11 @@
 				});
 				bubbles.add(friend);
 			}
+
+			jQuery.jStorage.set('welcomed', true);
 		}
 
-		if(jQuery.jStorage.get('welcomed') !== true) {
+		if(jQuery.jStorage.get('welcomed') === true) {
 			start();
 		} else {
 			var namemodel = new Backbone.Model;
