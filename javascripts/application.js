@@ -108,22 +108,31 @@
 
 	BadgeView = Backbone.View.extend({
 		tagName: 'span',
-		className: 'badge badge-info',
+		className: 'badge',
 		initialize: function() {
-			this.count = this.model.length;
-			this.model.on('add', function() {
+			this.count = 0;
+			this.model.live('torrent * file *', _.bind(function(file) {
 				this.count++;
 				this.render();
-			}, this);
-			this.model.on('remove', function() {
-				this.count--;
-				this.render();
-			}, this);
-			this.model.on('destroy', this.remove, this);
+				file.on('destroy', _.bind(function() {
+					this.count--;
+					this.render();
+				}, this));
+			}, this));
+			this.model.on('add:torrent', _.bind(function() {
+				this.$el.addClass('badge-info');
+			}, this));
+			this.model.on('remove:torrent', _.bind(function() {
+				this.$el.removeClass('badge-info');
+			}, this));
 		},
 		render: function() {
 			this.$el.empty();
-			this.$el.text(this.count);
+			if(this.model.has('torrent')) {
+				this.$el.text(this.count);
+			} else {
+				this.$el.text('-');
+			}
 			return this;
 		}		
 	});
@@ -147,11 +156,7 @@
 			this.$el.css('left', x + 'px');
 			this.$el.css('top', y + 'px');
 
-			this.model.btapp.on('add:torrent', _.bind(function(torrents) {
-				var badge = new BadgeView({model: torrents});
-				this.$el.append(badge.render().el);
-			}, this));
-
+			this.badge = new BadgeView({model: this.model.btapp});
 
 			this.model.on('show', function() {
 				this.$el.addClass('selected');
@@ -195,6 +200,7 @@
 		render: function() {
 			this.$el.empty();
 			this.$el.append(this.model.get('label'));
+			this.$el.append(this.badge.render().el);
 			return this;
 		}
 	});
