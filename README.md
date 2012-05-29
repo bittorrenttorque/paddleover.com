@@ -12,3 +12,7 @@ https://github.com/ivanvanderbyl/ui-progress-bar
 http://fx.inetcat.com/manuals.php
 
 http://dryicons.com/icon/symbolize-icons-set/trash/
+
+
+#BUGS
+badge turns grey after a torrent removal

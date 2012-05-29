@@ -56,32 +56,41 @@
 		className: 'file',
 		initialize: function() {
 			this.model.on('change', this.render, this);
-			this.model.on('destroy', this.remove, this);
+			this.model.live('properties', _.bind(function(properties) {
+				properties.on('change', this.render, this);
+			}, this));
+			this.options.bubble.trigger('bubble', '+');
+			this.model.on('destroy', _.bind(function() {
+				this.options.bubble.trigger('bubble', '-');
+				this.remove();
+			}, this));
 			this.template = _.template($('#file_template').html());
-			var torrent = this.options.btapp.get('torrent').get(this.model.get('torrent'));
+			var torrent = this.options.bubble.btapp.get('torrent').get(this.model.get('torrent'));
 			this.$el.data('torrent', torrent);
+			this.$el.data('bubble', this.options.bubble);
+			this.$el.draggable({
+				revert: 'invalid',
+				appendTo: 'body',
+				helper: 'clone'
+			});
 		},
 		render: function() {
 			var hash = this.model.get('torrent');
-			var torrents = this.options.btapp.get('torrent');
+			var torrents = this.options.bubble.btapp.get('torrent');
 			var date = hash ? new Date(torrents.get(hash).get('properties').get('added_on') * 1000) : new Date;
 			var properties = this.model.get('properties');
-			var name = properties ? properties.get('name').replace(/^.*[\\\/]/, '') : '';
-			var progress = properties ? 100.0 * 
+			var name = (properties && properties.has('name')) ? properties.get('name').replace(/^.*[\\\/]/, '') : '';
+			var progress = (properties && properties.has('downloaded') && properties.has('size')) ? 100.0 * 
 				properties.get('downloaded') / 
 				properties.get('size') : 0;
-			var size = properties ? properties.get('size') : 0;
+			var size = (properties && properties.has('size')) ? properties.get('size') : 0;
+
 			this.$el.html(this.template({
 				name: name,
 				progress: progress,
 				file_size: humaneSize(size),
 				file_date: humaneDate(date)
 			}));
-			this.$el.draggable({
-				revert: 'invalid',
-				appendTo: 'body',
-				helper: 'clone'
-			});
 			return this;
 		}
 	});
@@ -102,7 +111,7 @@
 			this.model.btapp.live('torrent * file *', function(file) {
 				var view = new FileView({
 					model: file,
-				 	btapp: this.model.btapp
+				 	bubble: this.model
 				 });
 				this.$el.append(view.render().el);
 			}, this);
@@ -122,11 +131,11 @@
 					this.render();
 				}, this));
 			}, this));
-			this.model.live('torrent', _.bind(function(torrent) {
+			this.model.live('torrent', _.bind(function() {
 				this.$el.addClass('badge-info');
-				torrent.on('destroy', _.bind(function() {
-					this.$el.removeClass('badge-info');
-				}, this));
+			}, this));
+			this.model.on('remove:torrent', _.bind(function() {
+				this.$el.removeClass('badge-info');
 			}, this));
 		},
 		render: function() {
@@ -146,6 +155,11 @@
 		initialize: function() {
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
+
+			this.model.on('bubble', _.bind(function(text) {
+				var notice = $('<span class="badge badge-info">' + text + '</span>');
+				notice.floatAway().appendTo(this.$el);
+			}, this));
 
 			var i = this.model.get('position');
 			//size relationshipt of the container and the bubbles
@@ -189,9 +203,7 @@
 				hoverClass: 'ui-state-hover hover',
 				activeClass: 'ui-state-active',
 				drop: _.bind(function(event, ui) {
-					var notice = $('<span class="badge badge-info">+</span>');
-					notice.floatAway().appendTo(this.$el);
-
+					this.model.trigger('bubble', '+');
 					var draggable = ui.draggable;
 					var uri = draggable.data('torrent').get('properties').get('uri');
 					this.model.btapp.get('add').torrent(uri).then(function() {
@@ -217,7 +229,9 @@
 				this.btapp = this.get('btapp');
 			} else {
 				this.btapp = new Btapp;
-				this.btapp.connect(this.get('credentials'));
+				this.btapp.connect(_.extend(this.get('credentials'), {
+					poll_frequency: 1000
+				}));
 			}
 		}
 	});
@@ -352,6 +366,7 @@
 			drop: _.bind(function(event, ui) {
 				var torrent = ui.draggable.data('torrent');
 				torrent.remove();
+				ui.draggable.data('bubble').trigger('bubble', '-');
 			}, this)
 		});
 	}
@@ -378,7 +393,7 @@
 		explainationmodel.on('next', callback);
 	}
 
-	function addDefaultBubble(bubbles, torrent, style) {
+	function addDefaultBubble(bubbles, uri, style, name) {
 		var bubble = new Bubble({
 			btapp: new Backbone.Model({
 				torrent: new Backbone.Collection([
@@ -389,13 +404,14 @@
 								id: 'Counting%20Crows%20-%20Underwater%20Sunshine%20-%20Liner%20Notes.pdf',
 								torrent: '2110c7b4fa045f62d33dd0e01dd6f5bc15902179',
 								properties: new Backbone.Model({
-									name: 'Counting Crows - Photos - The Band - 1.jpg',
-									size: 181281
+									name: name,
+									size: 181281,
+									downloaded: 181281
 								})
 							}),
 						]),
 						properties: new Backbone.Model({
-							uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
+							uri: uri,
 							added_on: new Date()
 						})
 					})
@@ -472,17 +488,17 @@
 			addDefaultBubble(
 				bubbles, 
 				'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
-				'countingcrows'
+				'countingcrows', 'Counting_Crows_Bundle'
 			);
 			addDefaultBubble(
 				bubbles, 
 				'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
-				'deathgrips'
+				'deathgrips', 'Death_Grips_Bundle'
 			);
 			addDefaultBubble(
 				bubbles, 
 				'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
-				'prettylights'
+				'prettylights', 'Pretty_lights_Bundle'
 			);
 
 			//add the friend if there was one provided as url args

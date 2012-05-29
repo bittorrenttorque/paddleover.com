@@ -175,14 +175,14 @@
 
 .add_bubble {
 	left: 12%;
-	top: 50%;
+	top: 40%;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 	color: #333;
 }
 
 .remove_bubble {
-	left: 15%;
-	top: 25%;
+	left: 12%;
+	top: 60%;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 }
 
