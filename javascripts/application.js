@@ -393,7 +393,7 @@
 		explainationmodel.on('next', callback);
 	}
 
-	function addDefaultBubble(bubbles, uri, style, name) {
+	function addDefaultBubble(bubbles, uri, style, name, size) {
 		var bubble = new Bubble({
 			btapp: new Backbone.Model({
 				torrent: new Backbone.Collection([
@@ -405,14 +405,14 @@
 								torrent: '2110c7b4fa045f62d33dd0e01dd6f5bc15902179',
 								properties: new Backbone.Model({
 									name: name,
-									size: 181281,
-									downloaded: 181281
+									size: size,
+									downloaded: size
 								})
 							}),
 						]),
 						properties: new Backbone.Model({
 							uri: uri,
-							added_on: new Date()
+							added_on: (new Date()).getTime() / 1000
 						})
 					})
 				])
@@ -488,17 +488,17 @@
 			addDefaultBubble(
 				bubbles, 
 				'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
-				'countingcrows', 'Counting_Crows_Bundle'
+				'countingcrows', 'Counting_Crows_Bundle', 29661352
 			);
 			addDefaultBubble(
 				bubbles, 
 				'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
-				'deathgrips', 'Death_Grips_Bundle'
+				'deathgrips', 'Death_Grips_Bundle', 633972503
 			);
 			addDefaultBubble(
 				bubbles, 
 				'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
-				'prettylights', 'Pretty_lights_Bundle'
+				'prettylights', 'Pretty_lights_Bundle', 383133030
 			);
 
 			//add the friend if there was one provided as url args
