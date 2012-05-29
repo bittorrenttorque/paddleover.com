@@ -186,6 +186,9 @@
 				hoverClass: 'ui-state-hover hover',
 				activeClass: 'ui-state-active',
 				drop: _.bind(function(event, ui) {
+					var notice = $('<span class="badge badge-info">+</span>');
+					notice.floatAway().appendTo(this.$el);
+
 					var draggable = ui.draggable;
 					var uri = draggable.data('uri');
 					var torrent = draggable.data('torrent');
