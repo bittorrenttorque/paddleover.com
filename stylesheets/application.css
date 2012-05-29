@@ -186,6 +186,12 @@
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 }
 
+.remove_bubble.hover {
+	background-color: #FFFF00;
+	box-shadow: inset -4px -4px 18px 4px orange;
+}
+
+
 .remove_bubble img {
 	position: absolute;
 	left: 50%;

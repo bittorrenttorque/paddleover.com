@@ -12,7 +12,7 @@
         _.defer(when_func);
     }
     
-	function randomString() {
+    function randomString() {
 		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 		var string_length = 0x10;
 		var randomstring = '';
@@ -58,20 +58,23 @@
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
 			this.template = _.template($('#file_template').html());
-			var properties = this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties');
-			this.$el.data('uri', properties.get('uri'));
-			this.$el.data('torrent', this.model.get('torrent'));
+			var torrent = this.options.btapp.get('torrent').get(this.model.get('torrent'));
+			this.$el.data('torrent', torrent);
 		},
 		render: function() {
-			var date = new Date(this.options.btapp.get('torrent').get(this.model.get('torrent')).get('properties').get('added_on') * 1000);
-			var name = this.model.get('properties').get('name').replace(/^.*[\\\/]/, '');
-			var progress = 100.0 * 
-				this.model.get('properties').get('downloaded') / 
-				this.model.get('properties').get('size');
+			var hash = this.model.get('torrent');
+			var torrents = this.options.btapp.get('torrent');
+			var date = hash ? new Date(torrents.get(hash).get('properties').get('added_on') * 1000) : new Date;
+			var properties = this.model.get('properties');
+			var name = properties ? properties.get('name').replace(/^.*[\\\/]/, '') : '';
+			var progress = properties ? 100.0 * 
+				properties.get('downloaded') / 
+				properties.get('size') : 0;
+			var size = properties ? properties.get('size') : 0;
 			this.$el.html(this.template({
 				name: name,
 				progress: progress,
-				file_size: humaneSize(this.model.get('properties').get('size')),
+				file_size: humaneSize(size),
 				file_date: humaneDate(date)
 			}));
 			this.$el.draggable({
@@ -190,10 +193,7 @@
 					notice.floatAway().appendTo(this.$el);
 
 					var draggable = ui.draggable;
-					var uri = draggable.data('uri');
-					var torrent = draggable.data('torrent');
-					console.log(uri);
-					console.log(torrent);
+					var uri = draggable.data('torrent').get('properties').get('uri');
 					this.model.btapp.get('add').torrent(uri).then(function() {
 						console.log('torrent added');
 					});
@@ -340,6 +340,22 @@
 		});
 	}
 
+	function setupRemoveBubble() {
+		$('.remove_bubble').droppable({
+			accept: _.bind(function(draggable) {
+				var torrent = draggable.data('torrent');
+				return typeof torrent.remove !== 'undefined';
+			}, this),
+			tolerance: 'pointer',
+			hoverClass: 'ui-state-hover hover',
+			activeClass: 'ui-state-active',
+			drop: _.bind(function(event, ui) {
+				var torrent = ui.draggable.data('torrent');
+				torrent.remove();
+			}, this)
+		});
+	}
+
 	function displayWelcome(callback) {
 		var namemodel = new Backbone.Model;
 		var installmodel = new Backbone.Model;
@@ -393,7 +409,7 @@
 	}
 
 	jQuery(function() {
-		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').hide();
+		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble').hide();
 
 		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
@@ -448,8 +464,10 @@
 			setupRemote(self.btapp);
 			bubbles.add(self);
 			self.trigger('show');
-			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner').show();
+			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble').show();
 			setupAddBubble(self.btapp);
+			setupRemoveBubble();
+
 
 			addDefaultBubble(
 				bubbles, 
