@@ -280,6 +280,54 @@
 	background: #f8f8d0;
 }
 
+.boat {
+	position: absolute;
+	bottom: 50px;
+	right: 0px;
+
+	animation-name:boat;
+	animation-duration:60s;
+	animation-timing-function:ease-in-out;
+	animation-delay:0s;
+	animation-iteration-count:infinite;
+	animation-direction:normal;
+	animation-play-state:running;
+	/* Firefox: */
+	-moz-animation-name:boat;
+	-moz-animation-duration:60s;
+	-moz-animation-timing-function:ease-in-out;
+	-moz-animation-delay:0s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-direction:normal;
+	-moz-animation-play-state:running;
+	/* Safari and Chrome: */
+	-webkit-animation-name:boat;
+	-webkit-animation-duration:60s;
+	-webkit-animation-timing-function:ease-in-out;
+	-webkit-animation-delay:0s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-direction:normal;
+	-webkit-animation-play-state:running;
+}
+
+@keyframes boat
+{
+0%   {right: -10%;}
+100% {right: 100%;}
+}
+
+@-moz-keyframes boat /* Firefox */
+{
+0%   {right: -10%;}
+100% {right: 100%;}
+}
+
+@-webkit-keyframes boat /* Safari and Chrome */
+{
+0%   {right: -10%;}
+100% {right: 100%;}
+}
+
 html{background: #77d5fb url('../images/bottom_bg.jpg') bottom center no-repeat;}
 body{
 	background: transparent url('../images/top_bg.png') top center no-repeat;
@@ -288,7 +336,7 @@ body{
 	line-height: 17px;
 
 
-	animation-name:myfirst;
+	animation-name:clouds;
 	animation-duration:30s;
 	animation-timing-function:ease-in-out;
 	animation-delay:0s;
@@ -296,7 +344,7 @@ body{
 	animation-direction:alternate;
 	animation-play-state:running;
 	/* Firefox: */
-	-moz-animation-name:myfirst;
+	-moz-animation-name:clouds;
 	-moz-animation-duration:30s;
 	-moz-animation-timing-function:ease-in-out;
 	-moz-animation-delay:0s;
@@ -304,7 +352,7 @@ body{
 	-moz-animation-direction:alternate;
 	-moz-animation-play-state:running;
 	/* Safari and Chrome: */
-	-webkit-animation-name:myfirst;
+	-webkit-animation-name:clouds;
 	-webkit-animation-duration:30s;
 	-webkit-animation-timing-function:ease-in-out;
 	-webkit-animation-delay:0s;
@@ -313,19 +361,19 @@ body{
 	-webkit-animation-play-state:running;
 }
 
-@keyframes myfirst
+@keyframes clouds
 {
 0%   {background-position: 0% 0%;}
 100% {background-position: 100% 0%;}
 }
 
-@-moz-keyframes myfirst /* Firefox */
+@-moz-keyframes clouds /* Firefox */
 {
 0%   {background-position: 0% 0%;}
 100% {background-position: 100% 0%;}
 }
 
-@-webkit-keyframes myfirst /* Safari and Chrome */
+@-webkit-keyframes clouds /* Safari and Chrome */
 {
 0%   {background-position: 0% 0%;}
 100% {background-position: 100% 0%;}
