@@ -29,14 +29,14 @@
 	margin-top: 5px;
 }
 
-.welcome_explanation_frame form {
-	margin-bottom: 0px;
-}
 
 .welcome_frame input {
 	height: 28px;
 	line-height: 28px;
 }
+
+
+
 
 .welcome_name_frame form {
 	margin-bottom: 10px;
@@ -53,6 +53,9 @@
 	padding: 5px 0;
 }
 
+
+
+
 .welcome_install_frame h3 {
 	padding: 15px 0;
 }
@@ -60,6 +63,9 @@
 .welcome_install_frame a {
 	margin: 20px 0;
 }
+
+
+
 
 .welcome_explanation_frame .explanation {
 	text-align: left;
@@ -73,4 +79,8 @@
 
 .welcome_explanation_frame a {
 	margin-top: 10px;
+}
+
+.welcome_explanation_frame form {
+	margin-bottom: 0px;
 }

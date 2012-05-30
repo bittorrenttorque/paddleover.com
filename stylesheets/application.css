@@ -167,19 +167,18 @@
 	background-color: #FFFFAA;
 }
 
-
-.add_user {
-	left: 12%;
-	top: 50%;
-	margin-top: -150px;
-}
-
 .add_bubble {
 	left: 12%;
 	top: 50%;
 	margin-top: -100px;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 	color: #333;
+}
+
+.add_bubble span {
+	font-family: 'Arial';
+	font-weight: bold;
+	font-size: 60pt;
 }
 
 .remove_bubble {
@@ -236,21 +235,16 @@
 	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
 }
 
-.add_bubble span, .add_user span {
-	font-family: 'Arial';
-	font-weight: bold;
-	font-size: 60pt;
-}
-
 .twitter_bubble {
-	left: 85%;
+	left: 88%;
 	top: 50%;
-	margin-top: -200px;
+	margin-top: -125px;
 }
 
 .fb_bubble {
 	left: 88%;
 	top: 50%;
+	margin-top: 75px;
 }
 
 .fb_bubble span {
@@ -258,23 +252,6 @@
 	font-weight: bold;
 	font-size: 60pt;
 	padding-left: 30px;
-}
-
-.email_bubble {
-	left: 85%;
-	top: 50%;
-	margin-top: 100px;
-}
-
-.email_bubble img {
-	height: 40px;
-	padding-top: 30px;
-}
-
-.email_bubble span {
-	font-family: 'Arial';
-	font-weight: bold;
-	font-size: 40pt;
 }
 
 .ui-state-active {
