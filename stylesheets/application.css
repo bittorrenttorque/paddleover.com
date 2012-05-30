@@ -282,8 +282,9 @@
 
 .boat {
 	position: absolute;
-	bottom: 50px;
+	bottom: 30px;
 	right: 0px;
+	height: 100px;
 
 	animation-name:boat;
 	animation-duration:60s;
@@ -328,7 +329,10 @@
 100% {right: 100%;}
 }
 
-html{background: #77d5fb url('../images/bottom_bg.jpg') bottom center no-repeat;}
+html{
+	background: #77d5fb url('../images/bottom_bg.jpg') bottom center no-repeat;
+
+}
 body{
 	background: transparent url('../images/top_bg.png') top center no-repeat;
 	font-size: 16px;
@@ -359,6 +363,7 @@ body{
 	-webkit-animation-iteration-count:infinite;
 	-webkit-animation-direction:alternate;
 	-webkit-animation-play-state:running;
+	overflow: hidden;
 }
 
 @keyframes clouds
