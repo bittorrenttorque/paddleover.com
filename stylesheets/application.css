@@ -170,19 +170,22 @@
 
 .add_user {
 	left: 12%;
-	top: 25%;
+	top: 50%;
+	margin-top: -150px;
 }
 
 .add_bubble {
 	left: 12%;
-	top: 40%;
+	top: 50%;
+	margin-top: -100px;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 	color: #333;
 }
 
 .remove_bubble {
 	left: 12%;
-	top: 60%;
+	top: 50%;
+	margin-top: 50px;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 }
 
@@ -241,7 +244,8 @@
 
 .twitter_bubble {
 	left: 85%;
-	top: 25%;
+	top: 50%;
+	margin-top: -200px;
 }
 
 .fb_bubble {
@@ -258,7 +262,8 @@
 
 .email_bubble {
 	left: 85%;
-	top: 75%;
+	top: 50%;
+	margin-top: 100px;
 }
 
 .email_bubble img {

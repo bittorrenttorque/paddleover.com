@@ -4,7 +4,6 @@
 	width: 400px;
 	margin-left: -200px;
 	top: 50%;
-	height: 250px;
 	margin-top: -125px;
 	background: ;
 	background-image: url(../images/tileable_wood_texture.png);
@@ -13,7 +12,6 @@
 }
 
 .welcome_frame .contents {
-	position: absolute;
 	background-color: #fefefe;
 	top: 30px;
 	right: 30px;
@@ -21,6 +19,7 @@
 	left: 30px;
 	padding: 20px;
 	border: 1px solid #aaa;
+	margin: 25px;
 }
 
 .welcome_frame form {
@@ -30,9 +29,18 @@
 	margin-top: 5px;
 }
 
+.welcome_explanation_frame form {
+	margin-bottom: 0px;
+}
+
 .welcome_frame input {
 	height: 28px;
 	line-height: 28px;
+}
+
+.welcome_name_frame form {
+	margin-bottom: 10px;
+	margin-top: 20px;
 }
 
 .welcome_name_frame .subnote {
@@ -64,5 +72,5 @@
 }
 
 .welcome_explanation_frame a {
-	margin: 10px 0;
+	margin-top: 10px;
 }
