@@ -371,6 +371,30 @@
 		});
 	}
 
+	function setupSocialBubbles() {
+		//twitter
+		(function() {
+			var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
+			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
+			$('.twitter_bubble').attr('href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(link) + '&text=' + text);
+		}());
+
+		//facebook
+		$('.fb_bubble').click(function() {
+			var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
+			var text = 'Drag files from my computer to yours, and visa versa.'
+			var description = 'Let friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want!';
+			FB.init({appId: '353964634659536', xfbml: true, cookie: true});
+			FB.ui({
+				method: 'send',
+				picture: 'http://paddleover.com/images/icon.png',
+				description: description,
+				name: text,
+				link: link
+			});
+		});		
+	}
+
 	function displayWelcome(callback) {
 		var namemodel = new Backbone.Model;
 		var installmodel = new Backbone.Model;
@@ -450,27 +474,6 @@
 			bubble.trigger('hide');
 		});
 
-		//twitter
-		(function() {
-			var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
-			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
-			$('.twitter_bubble').attr('href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(link) + '&text=' + text);
-		}());
-
-		$('.fb_bubble').click(function() {
-			var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
-			var text = 'Drag files from my computer to yours, and visa versa.'
-			var description = 'Let friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want!';
-			FB.init({appId: '353964634659536', xfbml: true, cookie: true});
-			FB.ui({
-				method: 'send',
-				picture: 'http://paddleover.com/images/icon.png',
-				description: description,
-				name: text,
-				link: link
-			});
-		});
-
 		function start() {
 			var self = new Bubble({
 				credentials: {},
@@ -483,6 +486,7 @@
 			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble').show();
 			setupAddBubble(self.btapp);
 			setupRemoveBubble();
+			setupSocialBubbles();
 
 
 			addDefaultBubble(
