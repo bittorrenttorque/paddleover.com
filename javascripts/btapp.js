@@ -271,12 +271,10 @@
             this.on('change', this.customEvents, this);
         },
         destructor: function() {
-            console.log('destructor:' + this.url);
             this.off('change', this.customEvents, this);
             this.trigger('destroy');
         },
         clearState: function() {
-            console.log('clearState:' + this.url);
             this.initializeValues();
             var clone = _.clone(this.attributes);
             delete clone['id'];
@@ -416,7 +414,7 @@
             // come along for the ride.
             if(typeof TorrentClient === 'undefined') {
                 jQuery.getScript(
-                    'http://apps.bittorrent.com/torque/btapp/client.btapp.js',
+                    '//torque.bittorrent.com/btapp/client.btapp.js',
                     _.bind(this.setClient, this, attributes)
                 );
             } else {

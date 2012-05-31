@@ -34,8 +34,8 @@
     
     function initializeFacebox() {
         jQuery.facebox.settings.overlay = true; // to disable click outside overlay to disable it
-        jQuery.facebox.settings.closeImage = 'http://apps.bittorrent.com/torque/facebox/src/closelabel.png';
-        jQuery.facebox.settings.loadingImage = 'http://apps.bittorrent.com/torque/facebox/src/loading.gif';                     
+        jQuery.facebox.settings.closeImage = '//torque.bittorrent.com/facebox/src/closelabel.png';
+        jQuery.facebox.settings.loadingImage = '//torque.bittorrent.com/facebox/src/loading.gif';                     
         jQuery.facebox.settings.opacity = 0.6;
     }
 
@@ -48,9 +48,9 @@
 
             //make sure that we've loaded what we need to display
             if(typeof jQuery.facebox === 'undefined') {
-                getCSS('http://apps.bittorrent.com/torque/facebox/src/facebox.css');
+                getCSS('//torque.bittorrent.com/facebox/src/facebox.css');
                 jQuery.getScript(
-                    'http://apps.bittorrent.com/torque/facebox/src/facebox.js', 
+                    '//torque.bittorrent.com/facebox/src/facebox.js', 
                     _.bind(this.download, this, options)
                 );
                 return;
@@ -71,7 +71,7 @@
             dialog.append(paragraph);
 
 
-            var button_url = this.model.get('download_url');
+            var button_url = isMac() ? this.model.get('osx_download_url') : this.model.get('windows_download_url');
             var button = jQuery('<a id="download" href="' + button_url + '">Download</a>');
             dialog.append(button);
 
@@ -90,14 +90,14 @@
         soshare_props: {
             mime_type: 'application/x-gyre-soshare',
             activex_progid: 'gyre.soshare',
-            windows_download_url: 'http://apps.bittorrent.com/torque/SoShare.msi',
-            osx_download_url: 'http://apps.bittorrent.com/torque/SoShare.pkg'
+            windows_download_url: '//torque.bittorrent.com/SoShare.msi',
+            osx_download_url: '//torque.bittorrent.com/SoShare.pkg'
         },
         torque_props: {
             mime_type: 'application/x-bittorrent-torque',
             activex_progid: 'gyre.torque',
-            windows_download_url: 'http://apps.bittorrent.com/torque/Torque.msi',
-            osx_download_url: 'http://apps.bittorrent.com/torque/Torque.pkg'
+            windows_download_url: '//torque.bittorrent.com/Torque.msi',
+            osx_download_url: '//torque.bittorrent.com/Torque.pkg'
         },
         defaults: {
             //Avoid DOM collisions by having a ridiculous id.
@@ -115,8 +115,6 @@
                 //Everyone else can piggy back on the torque plugin
                 this.set(this.torque_props);
             }
-
-            this.set('download_url', isMac() ? this.get('osx_download_url') : this.get('windows_download_url'));
             //when we load jquery, we should defer a call to mime_type_check
             jQuery(_.bind(_.defer, this, this.mime_type_check));
         },
