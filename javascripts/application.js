@@ -275,11 +275,10 @@
 			this.$el.hide();
 			this.template = _.template($('#welcome_install_template').html());
             this.plugin_manager = new PluginManager();
-            this.plugin_manager.on('plugin:plugin_installed', _.bind(function() {
+            this.plugin_manager.on('plugin:client_running', _.bind(function() {
             	this.remove();
             	this.model.trigger('next');
             }, this));
-            this.plugin_manager.on('all', _.bind(console.log, console));
             this.plugin_manager.on('plugin:install_plugin', _.bind(function() {
             	this.$el.show();
             }, this));
