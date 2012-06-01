@@ -279,6 +279,7 @@
             	this.remove();
             	this.model.trigger('next');
             }, this));
+            this.plugin_manager.on('all', _.bind(console.log, console));
             this.plugin_manager.on('plugin:install_plugin', _.bind(function() {
             	this.$el.show();
             }, this));
