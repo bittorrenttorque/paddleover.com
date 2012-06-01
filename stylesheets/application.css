@@ -238,13 +238,13 @@
 .twitter_bubble {
 	left: 88%;
 	top: 50%;
-	margin-top: -125px;
+	margin-top: -100px;
 }
 
 .fb_bubble {
 	left: 88%;
 	top: 50%;
-	margin-top: 75px;
+	margin-top: 50px;
 }
 
 .fb_bubble span {
