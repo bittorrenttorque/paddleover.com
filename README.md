@@ -1,3 +1,9 @@
+#Getting Started
+git clone git@github.com:pwmckenna/bubbles.git  
+git submodule init  
+git submodule update  
+
+
 #UX
 
 * If they clicked on a link for someone's account, they should immediately see their stuff
@@ -15,4 +21,4 @@ http://dryicons.com/icon/symbolize-icons-set/trash/
 
 
 #BUGS
-badge turns grey after a torrent removal
+badge uses - or 0 interchangably...which is incorrect
