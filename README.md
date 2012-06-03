@@ -10,3 +10,5 @@ http://fx.inetcat.com/manuals.php
 http://dryicons.com/icon/symbolize-icons-set/trash/  
 #Bugs
 badge uses - or 0 interchangably...which is incorrect  
+#ToDo
+Fix jQueryUI so that when the original draggable object is destroyed, so is the clone
