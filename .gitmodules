@@ -16,3 +16,6 @@
 [submodule "javascripts/jquery-ui"]
 	path = javascripts/jquery-ui
 	url = https://github.com/pwmckenna/jquery-ui.git
+[submodule "javascript/jquery-ui"]
+	path = javascript/jquery-ui
+	url = https://github.com/pwmckenna/jquery-ui.git
