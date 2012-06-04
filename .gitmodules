@@ -13,3 +13,6 @@
 [submodule "javascripts/jStorage"]
 	path = javascripts/jStorage
 	url = git@github.com:pwmckenna/jStorage.git
+[submodule "javascripts/jquery-ui"]
+	path = javascripts/jquery-ui
+	url = https://github.com/pwmckenna/jquery-ui.git
