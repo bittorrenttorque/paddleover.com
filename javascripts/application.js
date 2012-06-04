@@ -476,7 +476,7 @@
 
 		function start() {
 			var self = new Bubble({
-				credentials: {},
+				credentials: { pairing_type: 'native' },
 				label: jQuery.jStorage.get('name'),
 				position: 0
 			});

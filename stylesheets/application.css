@@ -41,6 +41,7 @@
 	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
 
 	box-shadow: inset -20px -20px 40px 20px #2b90ae;
+	z-index: 5;
 }
 
 .bubble_center {
@@ -170,7 +171,7 @@
 .add_bubble {
 	left: 12%;
 	top: 50%;
-	margin-top: -100px;
+	margin-top: -125px;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 	color: #333;
 }
@@ -184,7 +185,7 @@
 .remove_bubble {
 	left: 12%;
 	top: 50%;
-	margin-top: 50px;
+	margin-top: 25px;
 	box-shadow: 0px 0px 3px 3px #2f96b4;
 }
 
@@ -238,13 +239,13 @@
 .twitter_bubble {
 	left: 88%;
 	top: 50%;
-	margin-top: -100px;
+	margin-top: -125px;
 }
 
 .fb_bubble {
 	left: 88%;
 	top: 50%;
-	margin-top: 50px;
+	margin-top: 25px;
 }
 
 .fb_bubble span {
@@ -262,11 +263,27 @@
 	background: #f8f8d0;
 }
 
+.ui-draggable-dragging {
+	z-index: 10;
+}
+
+#action_bubbles {
+	position: absolute;
+	width: 1200px;
+	margin-left: -600px;
+	height: 400px;
+	margin-top: -200px;
+	left: 50%;
+	top: 50%;
+	z-index: 4;
+}
+
 #boat {
 	position: absolute;
 	bottom: 30px;
 	right: 0px;
 	height: 100px;
+	z-index: 3;
 
 	animation-name:boat;
 	animation-duration:60s;
@@ -327,6 +344,7 @@ body{
 	top: 0px;
 	height: 382px;
 	width: 100%;
+	z-index: 4;
 }
 #island {
 	position: absolute;
@@ -336,6 +354,7 @@ body{
 	bottom: 0px;
 	height: 316px;
 	background-image: url(../images/bottom_bg.jpg);
+	z-index: 3;
 }
 #sea {
 	position: absolute;
@@ -343,6 +362,7 @@ body{
 	width: 100%;
 	background-image: url(../images/bottom_bg_edge.jpg);
 	height: 316px;
+	z-index: 2;
 }
 
 #clouds {
