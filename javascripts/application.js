@@ -358,7 +358,7 @@
 		$('.remove_bubble').droppable({
 			accept: _.bind(function(draggable) {
 				var torrent = draggable.data('torrent');
-				return typeof torrent.remove !== 'undefined';
+				return torrent && typeof torrent.remove !== 'undefined';
 			}, this),
 			tolerance: 'pointer',
 			hoverClass: 'ui-state-hover hover',
