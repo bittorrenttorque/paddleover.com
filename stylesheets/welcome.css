@@ -9,6 +9,7 @@
 	background-image: url(../images/tileable_wood_texture.png);
 	text-align: center;
 	border: 2px solid #888;
+	z-index: 9;
 }
 
 .welcome_frame .contents {
