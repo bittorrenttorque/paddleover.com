@@ -1,18 +1,18 @@
 [submodule "javascripts/btapp"]
 	path = javascripts/btapp
-	url = git://github.com:pwmckenna/btapp.git
+	url = git://github.com/pwmckenna/btapp.git
 [submodule "javascripts/floataway.jquery.git"]
 	path = javascripts/floataway.jquery.git
-	url = git://github.com:pwmckenna/floataway.jquery.git
+	url = git://github.com/pwmckenna/floataway.jquery.git
 [submodule "javascripts/floataway.jquery"]
 	path = javascripts/floataway.jquery
-	url = git://github.com:pwmckenna/floataway.jquery.git
+	url = git://github.com/pwmckenna/floataway.jquery.git
 [submodule "javascripts/backbrace"]
 	path = javascripts/backbrace
-	url = git://github.com:pwmckenna/backbrace.git
+	url = git://github.com/pwmckenna/backbrace.git
 [submodule "javascripts/jStorage"]
 	path = javascripts/jStorage
-	url = git://github.com:pwmckenna/jStorage.git
+	url = git://github.com/pwmckenna/jStorage.git
 [submodule "javascripts/jquery-ui"]
 	path = javascripts/jquery-ui
 	url = git://github.com/pwmckenna/jquery-ui.git
