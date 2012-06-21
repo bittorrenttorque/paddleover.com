@@ -4,9 +4,6 @@
 [submodule "javascripts/floataway.jquery.git"]
 	path = javascripts/floataway.jquery.git
 	url = git://github.com/pwmckenna/floataway.jquery.git
-[submodule "javascripts/floataway.jquery"]
-	path = javascripts/floataway.jquery
-	url = git://github.com/pwmckenna/floataway.jquery.git
 [submodule "javascripts/backbrace"]
 	path = javascripts/backbrace
 	url = git://github.com/pwmckenna/backbrace.git
