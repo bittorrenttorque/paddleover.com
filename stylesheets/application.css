@@ -281,10 +281,12 @@
 #boat {
 	position: absolute;
 	bottom: 30px;
-	right: 0px;
+	right: -10%;
 	height: 100px;
 	z-index: 3;
+}
 
+#boat.move {
 	animation-name:boat;
 	animation-duration:60s;
 	animation-timing-function:ease-in-out;
@@ -365,7 +367,7 @@ body{
 	z-index: 2;
 }
 
-#clouds {
+#clouds.move{
 	animation-name:clouds;
 	animation-duration:30s;
 	animation-timing-function:ease-in-out;

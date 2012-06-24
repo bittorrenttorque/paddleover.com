@@ -480,6 +480,7 @@
 				label: jQuery.jStorage.get('name'),
 				position: 0
 			});
+			window.btapp = self.btapp;
 			setupRemote(self.btapp);
 			bubbles.add(self);
 			self.trigger('show');
