@@ -192,10 +192,24 @@
 				this.model.trigger('show');
 			}, this));
 
+			if(this.model.get('draggable')) {
+				this.$el.data('bubble', this.model);
+				this.$el.draggable({
+					revert: 'invalid',
+					appendTo: 'body',
+					helper: 'clone'
+				});
+			}
+
 			this.$el.droppable({
 				tolerance: 'pointer',
 				greedy: 'true',
 				accept: _.bind(function(draggable) {
+					// Only allow drops of torrents
+					if(!draggable.data('bubble') || !draggable.data('torrent')) {
+						return;
+					}
+
 					var addable = this.model.btapp.has('add');
 					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(draggable.data('torrent'));
 					return addable && !duplicate;
@@ -203,8 +217,13 @@
 				hoverClass: 'ui-state-hover hover',
 				activeClass: 'ui-state-active',
 				drop: _.bind(function(event, ui) {
-					this.model.trigger('bubble', '+');
 					var draggable = ui.draggable;
+					// Only allow drops of torrents
+					if(!draggable.data('bubble') || !draggable.data('torrent')) {
+						return;
+					}
+
+					this.model.trigger('bubble', '+');
 					var uri = draggable.data('torrent').get('properties').get('uri');
 					this.model.btapp.get('add').torrent(uri).then(function() {
 						console.log('torrent added');
@@ -354,19 +373,32 @@
 		});
 	}
 
-	function setupRemoveBubble() {
+	function setupRemoveBubble(btapp) {
 		$('.remove_bubble').droppable({
 			accept: _.bind(function(draggable) {
+				// Only allow drops of torrents
+				if(!draggable.data('bubble')) {
+					return false;
+				}
+				//is it a torrent or a bubble
 				var torrent = draggable.data('torrent');
-				return torrent && typeof torrent.remove !== 'undefined';
+				if(torrent) {
+					return typeof torrent.remove !== 'undefined';
+				} else {
+					return draggable.data('bubble').btapp !== btapp;
+				}
 			}, this),
 			tolerance: 'pointer',
 			hoverClass: 'ui-state-hover hover',
 			activeClass: 'ui-state-active',
 			drop: _.bind(function(event, ui) {
 				var torrent = ui.draggable.data('torrent');
-				torrent.remove();
-				ui.draggable.data('bubble').trigger('bubble', '-');
+				if(torrent) {
+					torrent.remove();
+					ui.draggable.data('bubble').trigger('bubble', '-');
+				} else {
+					//lets destroy this user
+				}
 			}, this)
 		});
 	}
@@ -374,6 +406,12 @@
 	function setupComputerBubble(btapp) {
 		$('.computer_bubble').droppable({
 			accept: _.bind(function(draggable) {
+				// Only allow drops of torrents
+				if(!draggable.data('bubble') || !draggable.data('torrent')) {
+					return;
+				}
+
+				// Only open files that are ours.
 				if(draggable.data('bubble').btapp !== btapp) {
 					return false;
 				}
@@ -461,15 +499,14 @@
 				])
 			}),
 			style: style,
-			position: bubbles.length
+			position: bubbles.length,
+			draggable: true
 		});
 		bubbles.add(bubble);
 		bubble.trigger('hide');
 	}
 
 	jQuery(function() {
-		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').hide();
-
 		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
 			var view = new BubbleView({model: bubble});
@@ -484,7 +521,8 @@
 			var self = new Bubble({
 				credentials: { },
 				label: jQuery.jStorage.get('name'),
-				position: 0
+				position: 0,
+				draggable: false
 			});
 			window.btapp = self.btapp;
 			setupRemote(self.btapp);
@@ -492,7 +530,7 @@
 			self.trigger('show');
 			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').show();
 			setupAddBubble(self.btapp);
-			setupRemoveBubble();
+			setupRemoveBubble(self.btapp);
 			setupComputerBubble(self.btapp);
 			setupSocialBubbles();
 
@@ -544,7 +582,8 @@
 								password: password
 							},
 							label: JSON.parse(value).name,
-							position: bubbles.length
+							position: bubbles.length,
+							draggable: true
 						});
 						friend.btapp.on('add:stash', 
 							_.bind(store_in_stash, this, jQuery.jStorage.get('name'), jQuery.jStorage.get('username'), jQuery.jStorage.get('password')));
