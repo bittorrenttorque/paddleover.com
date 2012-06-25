@@ -523,7 +523,7 @@
 								username: username,
 								password: password
 							},
-							label: args.name,
+							label: JSON.parse(value).name,
 							position: bubbles.length
 						});
 						friend.btapp.on('add:stash', 
