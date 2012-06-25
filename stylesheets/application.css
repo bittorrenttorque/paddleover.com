@@ -1,5 +1,10 @@
 .file {
 	padding-bottom: 30px;
+	cursor: pointer;
+}
+
+.file:hover {
+	color: black;
 }
 
 .file_size {
@@ -53,14 +58,14 @@
 	margin-left: -200px;
 	margin-top: -200px;
 
-	background-color: #fefefe;
+	background-color: #FFFCEF;
 	border-radius: 200px;
 
 	font-size: 16px;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	color: #555;
 
-	box-shadow: inset -20px -20px 40px 20px #e3e3e3;
+	box-shadow: inset -20px -20px 40px 20px #FFFBDE
 }
 
 .bubble_center .contents {
@@ -84,6 +89,7 @@
 }
 
 .bubble {
+	cursor: pointer;
 	position: absolute;
 	width: 100px;
 	height: 100px;

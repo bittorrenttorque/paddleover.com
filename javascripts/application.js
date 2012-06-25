@@ -374,6 +374,9 @@
 	function setupComputerBubble(btapp) {
 		$('.computer_bubble').droppable({
 			accept: _.bind(function(draggable) {
+				if(draggable.data('bubble').btapp !== btapp) {
+					return false;
+				}
 				var torrent = draggable.data('torrent');
 				return torrent && typeof torrent.remove !== 'undefined';
 			}, this),
