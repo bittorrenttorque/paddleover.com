@@ -461,19 +461,6 @@
 			$('.bubble_center').append(contents.render().el);
 		});
 
-		$('.add_user').click(function() {
-			var bubble = new Bubble({
-				credentials: {
-					username: jQuery.jStorage.get('username'),
-					password: jQuery.jStorage.get('password')
-				},
-				label: 'Me_' + bubbles.length,
-				position: bubbles.length
-			});
-			bubbles.add(bubble);
-			bubble.trigger('hide');
-		});
-
 		function start() {
 			var self = new Bubble({
 				credentials: { },
@@ -506,19 +493,48 @@
 				'prettylights', 'Pretty_lights_Bundle', 383133030
 			);
 
+			// Start each stash key with an identifier
+			var prefix = 'paddle-';
+			function store_in_stash(name, username, password, stash) {
+				var attributes = {};
+				attributes[prefix + username] = JSON.stringify({
+					name: name,
+					username: username,
+					password: password
+				});
+				stash.save(attributes);
+			}
 			//add the friend if there was one provided as url args
 			var args = getArgs();
 			if('name' in args && 'cu' in args && 'cp' in args) {
-				var friend = new Bubble({
-					credentials: {
-						username: args.cu,
-						password: args.cp
-					},
-					label: args.name,
-					position: bubbles.length
-				});
-				bubbles.add(friend);
+				self.btapp.on('add:stash', _.bind(store_in_stash, this, args.name, args.cu, args.cp));
 			}
+
+			// Because friends are potentially adding their credentials to your stash, 
+			// we need to check there for bubbles that we haven't yet added.
+			self.btapp.on('add:stash', function(stash) {
+				function add_friend_from_stash(value, key) {
+					if(key.indexOf(prefix) === 0) {
+						var username = key.replace(prefix, '');
+						var password = JSON.parse(value).password;
+						//do we already have a friend entry for this account?
+						var friend = new Bubble({
+							credentials: {
+								username: username,
+								password: password
+							},
+							label: args.name,
+							position: bubbles.length
+						});
+						friend.btapp.on('add:stash', 
+							_.bind(store_in_stash, this, jQuery.jStorage.get('name'), jQuery.jStorage.get('username'), jQuery.jStorage.get('password')));
+						
+						bubbles.add(friend);
+					}
+				}
+				_(stash.toJSON()).each(add_friend_from_stash);
+				stash.on('add', add_friend_from_stash);
+			});
 
 			jQuery.jStorage.set('welcomed', true);
 		}
