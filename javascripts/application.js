@@ -51,6 +51,8 @@
 		return ret;
 	}
 
+	var DRAGGABLE_USERS = false;
+
 	FileView = Backbone.View.extend({
 		tagName: 'div',
 		className: 'file',
@@ -192,7 +194,7 @@
 				this.model.trigger('show');
 			}, this));
 
-			if(this.model.get('draggable')) {
+			if(DRAGGABLE_USERS && this.model.get('draggable')) {
 				this.$el.data('bubble', this.model);
 				this.$el.draggable({
 					revert: 'invalid',
@@ -237,7 +239,6 @@
 			name.text(this.model.get('label'));
 			this.$el.append(name);
 			this.$el.append(this.badge.render().el);
-			this.$el.addClass(this.model.get('style'));
 			return this;
 		}
 	});
@@ -474,33 +475,40 @@
 		explainationmodel.on('next', callback);
 	}
 
-	function addDefaultBubble(bubbles, uri, style, name, size) {
+	function addDefaultBubble(bubbles, user, torrents) {
 		var bubble = new Bubble({
 			btapp: new Backbone.Model({
-				torrent: new Backbone.Collection([
-					new Backbone.Model({
-						id: '2110c7b4fa045f62d33dd0e01dd6f5bc15902179',
-						file: new Backbone.Collection([
-							new Backbone.Model({
-								id: 'Counting%20Crows%20-%20Underwater%20Sunshine%20-%20Liner%20Notes.pdf',
-								torrent: '2110c7b4fa045f62d33dd0e01dd6f5bc15902179',
-								properties: new Backbone.Model({
-									name: name,
-									size: size,
-									downloaded: size
-								})
-							}),
-						]),
-						properties: new Backbone.Model({
-							uri: uri,
-							added_on: (new Date()).getTime() / 1000
-						})
-					})
-				])
+				torrent: new Backbone.Collection()
 			}),
-			style: style,
+			label: user,
 			position: bubbles.length,
 			draggable: true
+		});
+		_.each(torrents, function(torrent) {
+			var name = torrent.name;
+			var uri = torrent.uri;
+			var size = torrent.size;
+			var hash = torrent.hash;
+			bubble.btapp.get('torrent').add(
+				new Backbone.Model({
+					id: hash,
+					file: new Backbone.Collection([
+						new Backbone.Model({
+							id: 'Counting%20Crows%20-%20Underwater%20Sunshine%20-%20Liner%20Notes.pdf',
+							torrent: hash,
+							properties: new Backbone.Model({
+								name: name,
+								size: size,
+								downloaded: size
+							})
+						}),
+					]),
+					properties: new Backbone.Model({
+						uri: uri,
+						added_on: (new Date()).getTime() / 1000
+					})
+				})
+			);
 		});
 		bubbles.add(bubble);
 		bubble.trigger('hide');
@@ -536,19 +544,34 @@
 
 
 			addDefaultBubble(
-				bubbles, 
-				'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
-				'countingcrows', 'Counting_Crows_Bundle', 29661352
-			);
-			addDefaultBubble(
-				bubbles, 
-				'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
-				'deathgrips', 'Death_Grips_Bundle', 633972503
-			);
-			addDefaultBubble(
-				bubbles, 
-				'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
-				'prettylights', 'Pretty_lights_Bundle', 383133030
+				bubbles,
+				'Patrick', 
+				[
+					{
+						uri: 'http://torrage.com/torrent/A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E.torrent',
+						hash: 'a92308e3d21698b7efbd6f0c1024bbfc1ab69c0e',
+						name: '80_Proof_Bundle',
+						size: 300145610
+					},
+					{
+						uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
+						hash: '2110C7B4FA045F62D33DD0E01DD6F5BC15902179',
+						name: 'Counting_Crows_Bundle', 
+						size: 29661352
+					},
+					{
+						uri: 'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
+						hash: 'F094C7473B68ED9777C7331B785586CCDD5301C7',
+						name: 'Death_Grips_Bundle', 
+						size: 633972503
+					},
+					{
+						uri: 'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
+						hash: 'EE3EB1ACEC1DC7ADC73EDA16D05A495BEA1DD4BE',
+						name: 'Pretty_lights_Bundle', 
+						size: 383133030
+					}
+				]
 			);
 
 			// Start each stash key with an identifier
