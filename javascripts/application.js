@@ -372,9 +372,6 @@
 	}
 
 	function setupComputerBubble(btapp) {
-		$('.computer_bubble').click(function() {
-			btapp.open_download_folder();
-		});
 		$('.computer_bubble').droppable({
 			accept: _.bind(function(draggable) {
 				var torrent = draggable.data('torrent');
