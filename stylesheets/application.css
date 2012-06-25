@@ -122,15 +122,17 @@ body {
 	border-radius: 50px;
 	color: #555;
 	box-shadow: inset -4px -4px 8px 4px #e3e3e3;
-	display: table;
 }
 
 .user_bubble p {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  font-size: 18px;
-  padding: 0 5px;
+	display: block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 18px;
+	padding: 0 5px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	line-height: 100px;
 }
 
 .user_bubble:hover, .add_bubble:hover, .remove_bubble:hover, .computer_bubble:hover {
