@@ -371,6 +371,25 @@
 		});
 	}
 
+	function setupComputerBubble(btapp) {
+		$('.computer_bubble').click(function() {
+			btapp.open_download_folder();
+		});
+		$('.computer_bubble').droppable({
+			accept: _.bind(function(draggable) {
+				var torrent = draggable.data('torrent');
+				return torrent && typeof torrent.remove !== 'undefined';
+			}, this),
+			tolerance: 'pointer',
+			hoverClass: 'ui-state-hover hover',
+			activeClass: 'ui-state-active',
+			drop: _.bind(function(event, ui) {
+				var torrent = ui.draggable.data('torrent');
+				torrent.open_containing();
+			}, this)
+		});
+	}
+
 	function setupSocialBubbles() {
 		//twitter
 		(function() {
@@ -449,7 +468,7 @@
 	}
 
 	jQuery(function() {
-		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble').hide();
+		$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').hide();
 
 		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
@@ -471,9 +490,10 @@
 			setupRemote(self.btapp);
 			bubbles.add(self);
 			self.trigger('show');
-			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble').show();
+			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').show();
 			setupAddBubble(self.btapp);
 			setupRemoveBubble();
+			setupComputerBubble(self.btapp);
 			setupSocialBubbles();
 
 
