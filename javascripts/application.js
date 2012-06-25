@@ -565,5 +565,9 @@
 			displayWelcome(start);
 		}
 		$('.auto-focus:first').focus();
+
+		$('#boat_trigger').click(function() {
+			$('#boat, #clouds').addClass('move');
+		});
 	});
 }).call(this);

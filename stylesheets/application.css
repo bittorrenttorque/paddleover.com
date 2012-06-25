@@ -291,6 +291,17 @@
 	z-index: 4;
 }
 
+#boat_trigger {
+	position: absolute;
+	width: 75px;
+	height: 75px;
+	cursor: pointer;
+	bottom: 80px;
+	z-index: 3;
+	left: 50%;
+	margin-left: 95px;
+}
+
 #boat {
 	position: absolute;
 	bottom: 30px;
