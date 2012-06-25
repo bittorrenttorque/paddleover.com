@@ -51,6 +51,14 @@
 		return ret;
 	}
 
+    function isMac() {
+        return navigator.userAgent.match(/Macintosh/) != undefined;
+    }		
+
+	function supportedBrowser() {
+		return jQuery.browser.webkit && !isMac();
+	}
+
 	var DRAGGABLE_USERS = false;
 
 	FileView = Backbone.View.extend({
@@ -515,6 +523,11 @@
 	}
 
 	jQuery(function() {
+		if(!supportedBrowser()) {
+			$('.not_supported').show();
+			return;
+		}
+
 		var bubbles = new Bubbles;
 		bubbles.on('add', function(bubble) {
 			var view = new BubbleView({model: bubble});
