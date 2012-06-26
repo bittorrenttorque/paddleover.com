@@ -297,8 +297,8 @@ body {
 
 #action_bubbles {
 	position: absolute;
-	width: 1200px;
-	margin-left: -600px;
+	width: 1100px;
+	margin-left: -550px;
 	height: 400px;
 	margin-top: -200px;
 	left: 50%;
