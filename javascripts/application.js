@@ -34,7 +34,8 @@
 		return fs + ' B';
 	}; 
 
-	function create_torrent_filename(paths) {
+	function create_torrent_filename(arg) {
+		var paths = typeof arg === 'string' ? [arg] : arg;
 		var default_path, filename;
 		default_path = paths[0];
 		filename = filename_from_filepath(default_path);
@@ -408,11 +409,11 @@
 			if(typeof btapp.browseforfiles === 'undefined') return;
 			btapp.browseforfiles(function(files) {
 				if(typeof btapp.create === 'undefined') return;
-				var files = _(files).values();
-				if(files.length == 0) return;
-				btapp.create(create_torrent_filename(files), files, function() {
-					console.log('created');
-				}).then(function() { console.log('called create')}); 
+				_.each(files, function(value, key) {
+					btapp.create(create_torrent_filename(value), [value], function() {
+						console.log('created');
+					}).then(function() { console.log('called create')});
+				});
 			}).then(function() { console.log('called browseforfiles')});
 		});
 	}
