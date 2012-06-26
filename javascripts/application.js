@@ -602,6 +602,23 @@
 
 			// Start each stash key with an identifier
 			var prefix = 'paddle-';
+			function add_friend(name, username, password) {
+				//do we already have a friend entry for this account?
+				var friend = new Bubble({
+					credentials: {
+						username: username,
+						password: password
+					},
+					label: name,
+					position: bubbles.length,
+					draggable: true
+				});
+				friend.btapp.on('add:stash', function(stash) {
+					store_in_stash(jQuery.jStorage.get('name'), jQuery.jStorage.get('username'), jQuery.jStorage.get('password'), stash);
+				});
+				
+				bubbles.add(friend);
+			}
 			function store_in_stash(name, username, password, stash) {
 				var attributes = {};
 				attributes[prefix + username] = JSON.stringify({
@@ -611,35 +628,26 @@
 				});
 				stash.save(attributes);
 			}
+			function add_friend_from_stash(value, key) {
+				if(key.indexOf(prefix) === 0) {
+					var name = JSON.parse(value).name;
+					var username = key.replace(prefix, '');
+					var password = JSON.parse(value).password;
+					add_friend(name, username, password)
+				}
+			}
 			//add the friend if there was one provided as url args
 			var args = getArgs();
 			if('name' in args && 'cu' in args && 'cp' in args) {
-				self.btapp.on('add:stash', _.bind(store_in_stash, this, args.name, args.cu, args.cp));
+				self.btapp.on('add:stash', function(stash) {
+					store_in_stash(args.name, args.cu, args.cp);
+					add_friend(args.name, args.cu, args.cp);
+				});
 			}
 
 			// Because friends are potentially adding their credentials to your stash, 
 			// we need to check there for bubbles that we haven't yet added.
 			self.btapp.on('add:stash', function(stash) {
-				function add_friend_from_stash(value, key) {
-					if(key.indexOf(prefix) === 0) {
-						var username = key.replace(prefix, '');
-						var password = JSON.parse(value).password;
-						//do we already have a friend entry for this account?
-						var friend = new Bubble({
-							credentials: {
-								username: username,
-								password: password
-							},
-							label: JSON.parse(value).name,
-							position: bubbles.length,
-							draggable: true
-						});
-						friend.btapp.on('add:stash', 
-							_.bind(store_in_stash, this, jQuery.jStorage.get('name'), jQuery.jStorage.get('username'), jQuery.jStorage.get('password')));
-						
-						bubbles.add(friend);
-					}
-				}
 				_(stash.toJSON()).each(add_friend_from_stash);
 				stash.on('add', add_friend_from_stash);
 			});
@@ -654,6 +662,7 @@
 		}
 		$('.auto-focus:first').focus();
 
+		// Add in our easter egg
 		$('#boat_trigger').click(function() {
 			$('#boat, #clouds').addClass('move');
 		});
