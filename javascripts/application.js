@@ -641,7 +641,7 @@
 			if('name' in args && 'cu' in args && 'cp' in args) {
 				self.btapp.on('add:stash', function(stash) {
 					store_in_stash(args.name, args.cu, args.cp);
-					add_friend(args.name, args.cu, args.cp);
+					add_friend(args.name, args.cu, args.cp, stash);
 				});
 			}
 
