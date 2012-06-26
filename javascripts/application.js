@@ -493,6 +493,7 @@
 
 	function addDefaultBubble(bubbles, user, torrents) {
 		var bubble = new Bubble({
+			id: 'default',
 			btapp: new Backbone.Model({
 				torrent: new Backbone.Collection()
 			}),
@@ -548,6 +549,7 @@
 
 		function start() {
 			var self = new Bubble({
+				id: jQuery.jStorage.get('username'),
 				credentials: { },
 				label: jQuery.jStorage.get('name'),
 				position: 0,
@@ -571,7 +573,7 @@
 
 			addDefaultBubble(
 				bubbles,
-				'Patrick', 
+				'Kyle', 
 				[
 					{
 						uri: 'http://torrage.com/torrent/A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E.torrent',
@@ -604,7 +606,10 @@
 			var prefix = 'paddle-';
 			function add_friend(name, username, password) {
 				//do we already have a friend entry for this account?
+				if(bubbles.get(username)) return;
+				
 				var friend = new Bubble({
+					id: username,
 					credentials: {
 						username: username,
 						password: password
