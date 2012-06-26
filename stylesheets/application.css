@@ -300,7 +300,7 @@ body {
 	height: 30px;
 	width: 19px;
 	margin-left: -205px;
-	z-index: 5;
+	z-index: 3;
 	bottom: 145px;
 }
 
@@ -310,7 +310,7 @@ body {
 	height: 75px;
 	cursor: pointer;
 	bottom: 80px;
-	z-index: 3;
+	z-index: 4;
 	left: 50%;
 	margin-left: 95px;
 }

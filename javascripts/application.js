@@ -673,7 +673,7 @@
 		});
 		// Add a flame as an easter egg
 		$('#flame_trigger').click(function() {
-			$('#flame').show();
+			$('#flame').toggle();
 		});
 	});
 }).call(this);
