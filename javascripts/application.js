@@ -34,6 +34,33 @@
 		return fs + ' B';
 	}; 
 
+	function create_torrent_filename(paths) {
+		var default_path, filename;
+		default_path = paths[0];
+		filename = filename_from_filepath(default_path);
+		if (paths.length > 1) {
+			return remove_extension(filename) + '_and_others';
+		} else {
+			return filename;
+		}
+	};
+
+	function remove_extension(filename) {
+		var nameArray;
+		nameArray = filename.split('.');
+		if (nameArray.length > 1) {
+			return _.first(nameArray, nameArray.length - 1).join('.');
+		} else {
+			return nameArray[0];
+		}
+	};
+
+	function filename_from_filepath(filepath) {
+		var filename;
+		filename = _.last(filepath.split('\\'));
+		return _.last(filename.split('/'));
+	};
+
 
 	function getArgs() {
 		var searchString = document.location.search;
@@ -383,7 +410,7 @@
 				if(typeof btapp.create === 'undefined') return;
 				var files = _(files).values();
 				if(files.length == 0) return;
-				btapp.create('', files, function() {
+				btapp.create(create_torrent_filename(files), files, function() {
 					console.log('created');
 				}).then(function() { console.log('called create')}); 
 			}).then(function() { console.log('called browseforfiles')});
