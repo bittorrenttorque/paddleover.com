@@ -59,11 +59,13 @@
     	return false;
     }
 
-	function supportedBrowser() {
-		return jQuery.browser.webkit && !isMac();
+	function isSupportedBrowser() {
+		return !jQuery.browser.msie && !isMac();
 	}
 
-	var DRAGGABLE_USERS = false;
+	function isBubbleDeletionSupported() {
+		return false;
+	}
 
 	FileView = Backbone.View.extend({
 		tagName: 'div',
@@ -208,7 +210,7 @@
 				this.model.trigger('show');
 			}, this));
 
-			if(DRAGGABLE_USERS && this.model.get('draggable')) {
+			if(isBubbleDeletionSupported() && this.model.get('draggable')) {
 				this.$el.data('bubble', this.model);
 				this.$el.draggable({
 					revert: 'invalid',
@@ -529,7 +531,7 @@
 	}
 
 	jQuery(function() {
-		if(!supportedBrowser()) {
+		if(!isSupportedBrowser()) {
 			$('.not_supported').show();
 			return;
 		}
