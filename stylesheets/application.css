@@ -280,6 +280,30 @@ body {
 	z-index: 4;
 }
 
+#flame_trigger, #flame {
+	position: absolute;
+	cursor: pointer;
+	z-index: 3;
+	left: 50%;
+}
+
+#flame_trigger {
+	height: 30px;
+	width: 75px;
+	margin-left: -235px;
+	bottom: 130px;
+}
+
+#flame {
+	display: none;
+	background-image: url(../images/flame.gif);
+	height: 30px;
+	width: 19px;
+	margin-left: -205px;
+	z-index: 5;
+	bottom: 145px;
+}
+
 #boat_trigger {
 	position: absolute;
 	width: 75px;

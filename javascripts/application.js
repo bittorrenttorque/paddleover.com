@@ -607,7 +607,7 @@
 			function add_friend(name, username, password) {
 				//do we already have a friend entry for this account?
 				if(bubbles.get(username)) return;
-				
+
 				var friend = new Bubble({
 					id: username,
 					credentials: {
@@ -670,6 +670,10 @@
 		// Add in our easter egg
 		$('#boat_trigger').click(function() {
 			$('#boat, #clouds').addClass('move');
+		});
+		// Add a flame as an easter egg
+		$('#flame_trigger').click(function() {
+			$('#flame').show();
 		});
 	});
 }).call(this);
