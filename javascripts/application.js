@@ -143,17 +143,19 @@
 			}, this));
 			this.model.live('torrent', _.bind(function() {
 				this.$el.addClass('badge-info');
+				this.render();
 			}, this));
 			this.model.on('remove:torrent', _.bind(function() {
 				this.$el.removeClass('badge-info');
+				this.render();
 			}, this));
 		},
 		render: function() {
 			this.$el.empty();
-			if(this.model.has('torrent')) {
-				this.$el.text(this.count);
-			} else {
+			if(!this.$el.hasClass('badge-info')) {
 				this.$el.text('-');
+			} else {
+				this.$el.text(this.count);
 			}
 			return this;
 		}		
