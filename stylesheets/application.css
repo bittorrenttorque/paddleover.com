@@ -97,7 +97,7 @@ body {
 
 .bubble .badge {
 	position: absolute;
-	left: 65%;
+	right: 10%;
 	top: 65%;
 }
 
