@@ -55,6 +55,10 @@
         return navigator.userAgent.match(/Macintosh/) != undefined;
     }		
 
+    function isDeveloperMode() {
+    	return false;
+    }
+
 	function supportedBrowser() {
 		return jQuery.browser.webkit && !isMac();
 	}
@@ -552,6 +556,11 @@
 			bubbles.add(self);
 			self.trigger('show');
 			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').show();
+			if(!isDeveloperMode()) {
+				$('.navbar-fixed-top a').hide();
+				$('.navbar-fixed-bottom span').hide();
+				$('.banner').hide();
+			}
 			setupAddBubble(self.btapp);
 			setupRemoveBubble(self.btapp);
 			setupComputerBubble(self.btapp);
