@@ -387,6 +387,19 @@
 		}
 	});
 
+	EasterEggView = Backbone.View.extend({
+		initialize: function() {
+			// Add in our easter egg
+			$('#boat_trigger').click(function() {
+				$('#boat, #clouds').addClass('move');
+			});
+			// Add a flame as an easter egg
+			$('#flame_trigger').click(function() {
+				$('#flame').toggle();
+			});
+		}
+	});
+
 	function setupRemote(btapp) {
 		//make sure that we have credentials available
 		if(!jQuery.jStorage.get('username')) {
@@ -512,14 +525,17 @@
 
 		var welcomenameview = new WelcomeNameView({model: namemodel});
 		$('body').append(welcomenameview.render().el);
+		$('.auto-focus:visible:first').focus();
 
 		var show_install = function() {
 			var welcomeinstallview = new WelcomeInstallView({model: installmodel});
 			$('body').append(welcomeinstallview.render().el);
+			$('.auto-focus:visible:first').focus();
 		};
 		var show_explaination = function() {
 			var welcomeexplainationview = new WelcomeExplainationView({model: explainationmodel});
 			$('body').append(welcomeexplainationview.render().el);
+			$('.auto-focus:first').focus();
 		};
 
 		namemodel.on('next', show_install);
@@ -644,12 +660,12 @@
 					draggable: true
 				});
 				friend.btapp.on('add:stash', function(stash) {
-					store_in_stash(jQuery.jStorage.get('name'), jQuery.jStorage.get('username'), jQuery.jStorage.get('password'), stash);
+					store_credentials_in_stash(jQuery.jStorage.get('name'), jQuery.jStorage.get('username'), jQuery.jStorage.get('password'), stash);
 				});
 				
 				bubbles.add(friend);
 			}
-			function store_in_stash(name, username, password, stash) {
+			function store_credentials_in_stash(name, username, password, stash) {
 				var attributes = {};
 				attributes[prefix + username] = JSON.stringify({
 					name: name,
@@ -670,7 +686,7 @@
 			var args = getArgs();
 			if('name' in args && 'cu' in args && 'cp' in args) {
 				self.btapp.on('add:stash', function(stash) {
-					store_in_stash(args.name, args.cu, args.cp, stash);
+					store_credentials_in_stash(args.name, args.cu, args.cp, stash);
 					add_friend(args.name, args.cu, args.cp);
 				});
 			}
@@ -690,15 +706,6 @@
 		} else {
 			displayWelcome(start);
 		}
-		$('.auto-focus:first').focus();
-
-		// Add in our easter egg
-		$('#boat_trigger').click(function() {
-			$('#boat, #clouds').addClass('move');
-		});
-		// Add a flame as an easter egg
-		$('#flame_trigger').click(function() {
-			$('#flame').toggle();
-		});
+		new EasterEggView();
 	});
 }).call(this);
