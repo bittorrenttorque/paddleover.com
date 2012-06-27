@@ -30,7 +30,6 @@
 
 		<script type="text/javascript" src="javascripts/application.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="stylesheets/ui-progress-bar.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/github.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/application.css" />
@@ -67,10 +66,10 @@
 		<!-- TEMPLATES! -->
 		<script type="text/template" id="file_template">
 			<span class="file_name ui-widget-content" title="<%= name %>"><%= name %></span>
-			<div class="ui-progress-bar ui-container transition" id="progress_bar">
-				<div class="ui-progress" style="width: <%= progress %>%; ">
-					<span class="ui-label" style="display: none; ">Completed</span>
-				</div>
+
+			<div class="progress progress-striped progress-success">
+			  <div class="bar"
+			       style="width: <%= progress %>%;"></div>
 			</div>
 			<span class="file_size"><%= file_size %></span>
 			<span class="file_date"><%= file_date %></span>

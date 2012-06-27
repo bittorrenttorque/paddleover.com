@@ -34,6 +34,11 @@ body {
 	white-space: nowrap;  
 }
 
+.file .progress {
+	height: 10px;
+	margin-bottom: 0px;
+}
+
 .bubble_container {
 	position: absolute;
 	width: 620px;
@@ -451,6 +456,8 @@ body{
 
 .navbar-inner {
 	background-image: url(../images/tileable_wood_texture.png);
+	background-repeat: repeat;
+	height: 100%;
 }
 
 .navbar-fixed-bottom {
