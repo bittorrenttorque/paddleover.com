@@ -382,11 +382,30 @@
 			}));
 			return this;
 		},
+		on_torrent_list: function() {
+			this.options.bubbles.at(0).btapp.off('torrent', this.on_torrent_list, this);
+			this.torrent_list();
+		},
+		torrent_list: function() {
+			if(this.options.bubbles.at(0).btapp.get('torrent').length > 0) {
+				this.torrent();
+			} else {
+				this.options.bubbles.at(0).btapp.get('torrent').on('add', this.torrent, this);
+			}
+		},
+		on_torrent: function() {
+			this.options.bubbles.at(0).btapp.get('torrent').off('add', this.torrent, this);
+			this.torrent();
+		},
 		test_friend_selected: function() {
 			this.options.bubbles.at(1).off('show', this.test_friend_selected, this);
-			this.options.bubbles.at(0).btapp.live('torrent *', this.success, this);
+			if(this.options.bubbles.at(0).btapp.has('torrent')) {
+				this.torrent_list();
+			} else {
+				this.options.bubbles.at(0).btapp.on('add:torrent', this.on_torrent_list, this);
+			}
 		},
-		success: function() {
+		torrent: function() {
 			this.remove();
 			this.model.trigger('next');
 		}
@@ -578,7 +597,7 @@
 		installmodel.on('next', show_bubble_explanation);
 		bubbleexplanationmodel.on('next', show_bubble_explanation_success);
 		bubbleexplanationsuccessmodel.on('next', function() {
-			$('.welcome_overlay').hide();
+			$('.welcome_overlay').fadeOut();
 		});
 	}
 
