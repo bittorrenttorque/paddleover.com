@@ -323,7 +323,7 @@ body {
 #boat {
 	position: absolute;
 	bottom: 30px;
-	right: -10%;
+	right: -70px;
 	height: 100px;
 	z-index: 3;
 }

@@ -391,7 +391,7 @@
 		initialize: function() {
 			// Add in our easter egg
 			$('#boat_trigger').click(function() {
-				$('#boat, #clouds').addClass('move');
+				$('#boat').addClass('move');
 			});
 			// Add a flame as an easter egg
 			$('#flame_trigger').click(function() {
