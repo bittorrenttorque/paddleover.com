@@ -31,11 +31,12 @@ body {
 }
 
 .file_name {
-	white-space: nowrap;  
+	white-space: nowrap; 
+	font-size: 10pt;
 }
 
 .file .progress {
-	height: 10px;
+	height: 8px;
 	margin-bottom: 0px;
 }
 
