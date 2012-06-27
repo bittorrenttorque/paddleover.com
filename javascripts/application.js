@@ -95,6 +95,10 @@
 		return false;
 	}
 
+	function getDefaultBubbleName() {
+		return 'Kyle';
+	}
+
 	function getQueries() {
 		return [
 			'btapp/torrent/all/*/remove/',
@@ -131,7 +135,8 @@
 			this.$el.draggable({
 				revert: 'invalid',
 				appendTo: 'body',
-				helper: 'clone'
+				helper: 'clone',
+				zIndex: 100
 			});
 		},
 		render: function() {
@@ -334,8 +339,6 @@
 				jQuery.jStorage.set('name', name);
 				this.remove();
 				this.model.trigger('next');
-			} else {
-
 			}
 		}
 	});
@@ -364,28 +367,51 @@
 		}
 	});
 
-	WelcomeExplainationView = Backbone.View.extend({
+	WelcomeBubbleExplanationView = Backbone.View.extend({
 		tagName: 'div',
-		className: 'welcome_explanation_frame welcome_frame',
-		events: {
-			'click .btn-primary': 'click',
-			'submit': 'click'
-		},
+		className: 'welcome_bubble_explanation_frame welcome_frame',
 		initialize: function() {
-			this.template = _.template($('#welcome_explaination_template').html());
+			this.template = _.template($('#welcome_explaination_bubble_template').html());
+			this.success_template = _.template($('#welcome_explaination_bubble_success_template').html());
+			this.options.bubbles.at(1).on('show', this.test_friend_selected, this);
 		},
 		render: function() {
+			$('.bubble_container').addClass('above_welcome_overlay');
 			this.$el.html(this.template({
-				friend: getArgs()['name'],
-				name: jQuery.jStorage.get('name')
+				name: getDefaultBubbleName()
 			}));
+			return this;
+		},
+		test_friend_selected: function() {
+			this.options.bubbles.at(1).off('show', this.test_friend_selected, this);
+			this.options.bubbles.at(0).btapp.live('torrent *', this.success, this);
+		},
+		success: function() {
+			this.remove();
+			this.model.trigger('next');
+		}
+	});
+
+	WelcomeBubbleExplanationSuccessView = Backbone.View.extend({
+		tagName: 'div',
+		className: 'welcome_bubble_explanation_frame welcome_frame',
+		initialize: function() {
+			this.template = _.template($('#welcome_explaination_bubble_success_template').html());
+			_.bindAll(this, 'click');
+			$('body').click(this.click);
+		},
+		render: function() {
+			$('.bubble_container').addClass('above_welcome_overlay');
+			this.$el.html(this.template({}));
 			return this;
 		},
 		click: function() {
 			this.remove();
 			this.model.trigger('next');
+			$('.bubble_container').removeClass('above_welcome_overlay');
 		}
 	});
+
 
 	EasterEggView = Backbone.View.extend({
 		initialize: function() {
@@ -518,10 +544,12 @@
 		});		
 	}
 
-	function displayWelcome(callback) {
+	function displayWelcome(start) {
+		$('.welcome_overlay').show();
 		var namemodel = new Backbone.Model;
 		var installmodel = new Backbone.Model;
-		var explainationmodel = new Backbone.Model;
+		var bubbleexplanationmodel = new Backbone.Model;
+		var bubbleexplanationsuccessmodel = new Backbone.Model;
 
 		var welcomenameview = new WelcomeNameView({model: namemodel});
 		$('body').append(welcomenameview.render().el);
@@ -530,21 +558,32 @@
 		var show_install = function() {
 			var welcomeinstallview = new WelcomeInstallView({model: installmodel});
 			$('body').append(welcomeinstallview.render().el);
-			$('.auto-focus:visible:first').focus();
 		};
-		var show_explaination = function() {
-			var welcomeexplainationview = new WelcomeExplainationView({model: explainationmodel});
-			$('body').append(welcomeexplainationview.render().el);
-			$('.auto-focus:first').focus();
-		};
+		var show_bubble_explanation = function() {
+			var bubbles = start();
+			var welcomebubbleexplanationview = new WelcomeBubbleExplanationView({
+				model: bubbleexplanationmodel,
+				bubbles: bubbles
+			});
+			$('body').append(welcomebubbleexplanationview.render().el);
+		}
+		var show_bubble_explanation_success = function() {
+			var bubbleexplanationsuccessview = new WelcomeBubbleExplanationSuccessView({
+				model: bubbleexplanationsuccessmodel
+			});
+			$('body').append(bubbleexplanationsuccessview.render().el);	
+		}
 
 		namemodel.on('next', show_install);
-		installmodel.on('next', show_explaination);
-		explainationmodel.on('next', callback);
+		installmodel.on('next', show_bubble_explanation);
+		bubbleexplanationmodel.on('next', show_bubble_explanation_success);
+		bubbleexplanationsuccessmodel.on('next', function() {
+			$('.welcome_overlay').hide();
+		});
 	}
 
 	function addDefaultBubble(bubbles) {
-		var user = 'Kyle'; 
+		var user = getDefaultBubbleName(); 
 		var torrents = [
 			{
 				uri: 'http://torrage.com/torrent/A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E.torrent',
@@ -699,6 +738,8 @@
 			});
 
 			jQuery.jStorage.set('welcomed', true);
+
+			return bubbles;
 		}
 
 		if(jQuery.jStorage.get('welcomed') === true) {

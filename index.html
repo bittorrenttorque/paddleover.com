@@ -151,19 +151,25 @@
 				<a href="<%= url %>" class="btn btn-primary">Download</a>
 			</div>
 		</script>
-		<script type="text/template" id="welcome_explaination_template">
+		<script type="text/template" id="welcome_explaination_bubble_template">
 			<div class="contents">
-				<h3><%= name %>, You're Ready to Roll!</h3>
-<% if(typeof(friend) !== 'undefined') { %>
-				<div class="explanation subnote">Keep in mind that while you can already see <%= friend %>'s files, no one can see yours until you give access them access using the social media buttons</div>
-<% } else { %>
-				<div class="explanation subnote">Note that you can't see other people's files until they share access via the social media buttons. To get started, let someone have access to yours by sending a message via Facebook, Twitter, or email. Enjoy!
-<% } %>
-				<form class="form-horizontal">
-					<a href="#" class="btn btn-primary">Dive In!</a>
-				</form>
+				<h3>Try out file swapping,<br>with test buddy <%= name %></h3>
+				<ul>
+					<li>Click on <%= name %> to see his files</li>
+					<li>Drag a file bundle to your circle</li>
+					<li>Your download will begin shortly!</li>
+				</ul>
 			</div>
 		</script>
+		<script type="text/template" id="welcome_explaination_bubble_success_template">
+			<div class="contents">
+				<h3>You're ready to roll!</h3>
+				<span>Looks like you have the hang of it. Clicking and dragging files around will unlock more functionality. Enjoy!
+				</span>
+			</div>
+		</script>
+
+		<div class="welcome_overlay"></div>
 
 
 		<div class="welcome_frame not_supported">
