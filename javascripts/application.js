@@ -107,7 +107,8 @@
 			'btapp/add/',
 			'btapp/events/',
 			'btapp/connect_remote/',
-			'btapp/stash/'
+			'btapp/stash/',
+			'btapp/showview/'
 		];
 	}
 
@@ -125,8 +126,7 @@
 				this.remove();
 			}, this));
 			this.template = _.template($('#file_template').html());
-			var torrent = this.options.bubble.btapp.get('torrent').get(this.model.get('torrent'));
-			this.$el.data('torrent', torrent);
+			this.$el.data('torrent', this.model);
 			this.$el.data('bubble', this.options.bubble);
 			this.$el.draggable({
 				revert: 'invalid',
@@ -135,14 +135,10 @@
 			});
 		},
 		render: function() {
-			var hash = this.model.get('torrent');
-			var torrents = this.options.bubble.btapp.get('torrent');
-			var date = hash ? new Date(torrents.get(hash).get('properties').get('added_on') * 1000) : new Date;
 			var properties = this.model.get('properties');
+			var date = properties ? new Date(properties.get('added_on') * 1000) : new Date;
 			var name = (properties && properties.has('name')) ? properties.get('name').replace(/^.*[\\\/]/, '') : '';
-			var progress = (properties && properties.has('downloaded') && properties.has('size')) ? 100.0 * 
-				properties.get('downloaded') / 
-				properties.get('size') : 0;
+			var progress = properties ? (properties.get('progress') / 10.0) : 0;
 			var size = (properties && properties.has('size')) ? properties.get('size') : 0;
 
 			this.$el.html(this.template({
@@ -168,7 +164,7 @@
 				this.$el.hide();
 			}, this);
 			
-			this.model.btapp.live('torrent * file *', function(file) {
+			this.model.btapp.live('torrent *', function(file) {
 				var view = new FileView({
 					model: file,
 				 	bubble: this.model
@@ -183,7 +179,7 @@
 		className: 'badge',
 		initialize: function() {
 			this.count = 0;
-			this.model.live('torrent * file *', _.bind(function(file) {
+			this.model.live('torrent *', _.bind(function(file) {
 				this.count++;
 				this.render();
 				file.on('destroy', _.bind(function() {
@@ -420,12 +416,12 @@
 		$('.add_bubble').click(function() {
 			if(typeof btapp.browseforfiles === 'undefined') return;
 			btapp.browseforfiles(function(files) {
+				files = _.values(files);
 				if(typeof btapp.create === 'undefined') return;
-				_.each(files, function(value, key) {
-					btapp.create(create_torrent_filename(value), [value], function() {
-						console.log('created');
-					}).then(function() { console.log('called create')});
-				});
+				if(files.length === 0) return;
+				btapp.create(create_torrent_filename(files), files, function() {
+					console.log('created');
+				}).then(function() { console.log('called create')});
 			}).then(function() { console.log('called browseforfiles')});
 		});
 	}
@@ -550,20 +546,12 @@
 			bubble.btapp.get('torrent').add(
 				new Backbone.Model({
 					id: hash,
-					file: new Backbone.Collection([
-						new Backbone.Model({
-							id: 'Counting%20Crows%20-%20Underwater%20Sunshine%20-%20Liner%20Notes.pdf',
-							torrent: hash,
-							properties: new Backbone.Model({
-								name: name,
-								size: size,
-								downloaded: size
-							})
-						}),
-					]),
 					properties: new Backbone.Model({
 						uri: uri,
-						added_on: (new Date()).getTime() / 1000
+						added_on: (new Date()).getTime() / 1000,
+						name: name,
+						size: size,
+						downloaded: size
 					})
 				})
 			);
@@ -619,25 +607,25 @@
 					{
 						uri: 'http://torrage.com/torrent/A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E.torrent',
 						hash: 'a92308e3d21698b7efbd6f0c1024bbfc1ab69c0e',
-						name: '80_Proof_Bundle',
+						name: '80 Proof - BitTorrent Edition',
 						size: 300145610
 					},
 					{
 						uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
 						hash: '2110C7B4FA045F62D33DD0E01DD6F5BC15902179',
-						name: 'Counting_Crows_Bundle', 
+						name: 'CountingCrows-BitTorrent', 
 						size: 29661352
 					},
 					{
 						uri: 'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
 						hash: 'F094C7473B68ED9777C7331B785586CCDD5301C7',
-						name: 'Death_Grips_Bundle', 
+						name: 'DeathGrips-BitTorrent', 
 						size: 633972503
 					},
 					{
 						uri: 'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
 						hash: 'EE3EB1ACEC1DC7ADC73EDA16D05A495BEA1DD4BE',
-						name: 'Pretty_lights_Bundle', 
+						name: 'PrettyLights-BT', 
 						size: 383133030
 					}
 				]
