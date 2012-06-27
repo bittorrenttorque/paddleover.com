@@ -527,7 +527,34 @@
 		explainationmodel.on('next', callback);
 	}
 
-	function addDefaultBubble(bubbles, user, torrents) {
+	function addDefaultBubble(bubbles) {
+		var user = 'Kyle'; 
+		var torrents = [
+			{
+				uri: 'http://torrage.com/torrent/A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E.torrent',
+				hash: 'a92308e3d21698b7efbd6f0c1024bbfc1ab69c0e',
+				name: '80 Proof - BitTorrent Edition',
+				size: 300145610
+			},
+			{
+				uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
+				hash: '2110C7B4FA045F62D33DD0E01DD6F5BC15902179',
+				name: 'CountingCrows-BitTorrent', 
+				size: 29661352
+			},
+			{
+				uri: 'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
+				hash: 'F094C7473B68ED9777C7331B785586CCDD5301C7',
+				name: 'DeathGrips-BitTorrent', 
+				size: 633972503
+			},
+			{
+				uri: 'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
+				hash: 'EE3EB1ACEC1DC7ADC73EDA16D05A495BEA1DD4BE',
+				name: 'PrettyLights-BT', 
+				size: 383133030
+			}
+		];
 		var bubble = new Bubble({
 			id: 'default',
 			btapp: new Backbone.Model({
@@ -551,7 +578,7 @@
 						added_on: (new Date()).getTime() / 1000,
 						name: name,
 						size: size,
-						downloaded: size
+						progress: 1000
 					})
 				})
 			);
@@ -598,38 +625,7 @@
 			setupRemoveBubble(self.btapp);
 			setupComputerBubble(self.btapp);
 			setupSocialBubbles();
-
-
-			addDefaultBubble(
-				bubbles,
-				'Kyle', 
-				[
-					{
-						uri: 'http://torrage.com/torrent/A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E.torrent',
-						hash: 'a92308e3d21698b7efbd6f0c1024bbfc1ab69c0e',
-						name: '80 Proof - BitTorrent Edition',
-						size: 300145610
-					},
-					{
-						uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
-						hash: '2110C7B4FA045F62D33DD0E01DD6F5BC15902179',
-						name: 'CountingCrows-BitTorrent', 
-						size: 29661352
-					},
-					{
-						uri: 'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
-						hash: 'F094C7473B68ED9777C7331B785586CCDD5301C7',
-						name: 'DeathGrips-BitTorrent', 
-						size: 633972503
-					},
-					{
-						uri: 'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
-						hash: 'EE3EB1ACEC1DC7ADC73EDA16D05A495BEA1DD4BE',
-						name: 'PrettyLights-BT', 
-						size: 383133030
-					}
-				]
-			);
+			addDefaultBubble(bubbles);
 
 			// Start each stash key with an identifier
 			var prefix = 'paddle-';
