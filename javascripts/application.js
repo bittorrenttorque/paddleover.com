@@ -95,6 +95,22 @@
 		return false;
 	}
 
+	function getQueries() {
+		return [
+			'btapp/torrent/all/*/remove/',
+			'btapp/torrent/all/*/open_containing/',
+			'btapp/torrent/all/*/file/', 
+			'btapp/torrent/all/*/properties/', 
+			'btapp/browseforfiles/',
+			'btapp/create/', 
+			'btapp/settings/', 
+			'btapp/add/',
+			'btapp/events/',
+			'btapp/connect_remote/',
+			'btapp/stash/'
+		];
+	}
+
 	FileView = Backbone.View.extend({
 		tagName: 'div',
 		className: 'file',
@@ -175,21 +191,16 @@
 					this.render();
 				}, this));
 			}, this));
-			this.model.live('torrent', _.bind(function() {
-				this.$el.addClass('badge-info');
-				this.render();
-			}, this));
-			this.model.on('remove:torrent', _.bind(function() {
-				this.$el.removeClass('badge-info');
-				this.render();
-			}, this));
+			this.model.on('change', this.render, this);
 		},
 		render: function() {
 			this.$el.empty();
-			if(!this.$el.hasClass('badge-info')) {
-				this.$el.text('-');
-			} else {
+			if(this.model.connected_state) {
 				this.$el.text(this.count);
+				this.$el.addClass('badge-info');
+			} else {
+				this.$el.text('-');
+				this.$el.removeClass('badge-info');
 			}
 			return this;
 		}		
@@ -294,7 +305,8 @@
 			} else {
 				this.btapp = new Btapp;
 				this.btapp.connect(_.extend(this.get('credentials'), {
-					poll_frequency: 1000
+					poll_frequency: 1000,
+					queries: getQueries()
 				}));
 			}
 		}
@@ -461,7 +473,7 @@
 					return false;
 				}
 				var torrent = draggable.data('torrent');
-				return torrent && typeof torrent.remove !== 'undefined';
+				return torrent && typeof torrent.open_containing !== 'undefined';
 			}, this),
 			tolerance: 'pointer',
 			hoverClass: 'ui-state-hover hover',
@@ -529,6 +541,7 @@
 			position: bubbles.length,
 			draggable: true
 		});
+		bubble.btapp.connected_state = true;
 		_.each(torrents, function(torrent) {
 			var name = torrent.name;
 			var uri = torrent.uri;
