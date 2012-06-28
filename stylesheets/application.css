@@ -472,3 +472,45 @@ body{
 .container .brand {
 	color: #333;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/** Easter Eggs **/
+#hut_trigger_1 {
+	position: absolute;
+	z-index: 3;
+	left: 50%;
+	height: 30px;
+	width: 30px;
+	margin-left: -108px;
+	bottom: 140px;
+}
+
+#hut_trigger_2 {
+	position: absolute;
+	z-index: 3;
+	left: 50%;
+	height: 30px;
+	width: 30px;
+	margin-left: 222px;
+	bottom: 165px;
+}
+
+#hut_trigger_3 {
+	position: absolute;
+	z-index: 3;
+	left: 50%;
+	height: 30px;
+	width: 30px;
+	margin-left: 388px;
+	bottom: 160px;
+}
