@@ -180,6 +180,11 @@ body {
 	color: #333;
 }
 
+.add_bubble:hover {
+	text-decoration: none;	
+	color: #333;
+}
+
 .add_bubble span {
 	font-family: 'Arial';
 	font-weight: bold;
@@ -254,6 +259,11 @@ body {
 	left: 88%;
 	top: 50%;
 	margin-top: 25px;
+}
+
+.fb_bubble:hover {
+	text-decoration: none;
+	color: #EEE;
 }
 
 .fb_bubble span {
