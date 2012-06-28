@@ -295,6 +295,9 @@
 			name.text(this.model.get('label'));
 			this.$el.append(name);
 			this.$el.append(this.badge.render().el);
+			if(this.model.has('title')) {
+				this.$el.attr('title', this.model.get('title'));
+			}
 			return this;
 		}
 	});
@@ -631,6 +634,7 @@
 		];
 		var bubble = new Bubble({
 			id: 'default',
+			title: getDefaultBubbleName() + ' is here to get you started. He tends to really enjoy BitTorrent Featured Artists. Unlike your other PaddleOver friends, you won\'t be able to delete ' + getDefaultBubbleName() + '\'s content.',
 			btapp: new Backbone.Model({
 				torrent: new Backbone.Collection()
 			}),
