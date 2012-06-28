@@ -84,7 +84,7 @@
     }		
 
     function isDeveloperMode() {
-    	return false;
+    	return true;
     }
 
 	function isSupportedBrowser() {
@@ -96,7 +96,7 @@
 	}
 
 	function getDefaultBubbleName() {
-		return 'Kyle';
+		return 'Patrick';
 	}
 
 	function getQueries() {
