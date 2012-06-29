@@ -219,6 +219,17 @@ body {
 	height: 60px;
 }
 
+.email_bubble img {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -35px;
+	margin-top: -25px;
+
+	width: 70px;
+	height: 50px;
+}
+
 .social_bubble {
 	color: #eee;
 	
@@ -277,6 +288,8 @@ body {
 	top: 50%;
 	margin-top: 75px;
 }
+
+
 
 .ui-state-active {
 	background: #fff;
