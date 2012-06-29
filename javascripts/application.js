@@ -88,7 +88,7 @@
     }
 
 	function isSupportedBrowser() {
-		return !jQuery.browser.msie && !isMac();
+		return !jQuery.browser.msie;
 	}
 
 	function isBubbleDeletionSupported() {
@@ -419,15 +419,14 @@
 		className: 'welcome_bubble_explanation_frame welcome_frame',
 		initialize: function() {
 			this.template = _.template($('#welcome_explaination_bubble_success_template').html());
-			_.bindAll(this, 'click');
-			$('body').click(this.click);
 		},
 		render: function() {
 			$('.bubble_container').addClass('above_welcome_overlay');
 			this.$el.html(this.template({}));
+			setTimeout(_.bind(this.done, this), 7500);
 			return this;
 		},
-		click: function() {
+		done: function() {
 			this.remove();
 			this.model.trigger('next');
 			$('.bubble_container').removeClass('above_welcome_overlay');

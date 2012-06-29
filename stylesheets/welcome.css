@@ -97,14 +97,20 @@
 	margin-bottom: 20px;
 }
 
-.welcome_bubble_explanation_frame li {
+.welcome_bubble_explanation_frame p {
 	text-align: left;
+}
+
+.welcome_bubble_explanation_frame .number {
+	padding-left: 5px;
+	padding-right: 10px;
+	font-weight: bold;
 }
 
 
 .welcome_overlay {
 	display: none;
-	opacity: 0.6;
+	opacity: 0.85;
 	position: fixed;
 	top: 0px;
 	left: 0px;
