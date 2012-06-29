@@ -542,16 +542,15 @@
 	}
 
 	function setupSocialBubbles() {
+		var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
 		//twitter
 		(function() {
-			var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
 			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
 			$('.twitter_bubble').attr('href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(link) + '&text=' + text);
 		}());
 
 		//facebook
 		$('.fb_bubble').click(function() {
-			var link = 'http://paddleover.com?name=' + jQuery.jStorage.get('name') + '&cu=' + jQuery.jStorage.get('username') + '&cp=' + jQuery.jStorage.get('password');
 			var text = 'Drag files from my computer to yours, and visa versa.'
 			var description = 'Let friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want!';
 			FB.init({appId: '353964634659536', xfbml: true, cookie: true});
@@ -562,7 +561,14 @@
 				name: text,
 				link: link
 			});
-		});		
+		});
+
+		//email
+		(function() {
+			var subject = 'I\'m sharing files with PaddleOver';
+			var body = 'PaddleOver lets friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want! I\'m using it right now. Join me!';
+			$('.email_bubble').attr('href', 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body) + '%0D%0A%0D%0A' + encodeURIComponent(link));
+		}());
 	}
 
 	function displayWelcome(start) {

@@ -252,13 +252,12 @@ body {
 .twitter_bubble {
 	left: 88%;
 	top: 50%;
-	margin-top: -125px;
+	margin-top: -175px;
 }
 
 .fb_bubble {
-	left: 88%;
+	left: 90%;
 	top: 50%;
-	margin-top: 25px;
 }
 
 .fb_bubble:hover {
@@ -271,6 +270,12 @@ body {
 	font-weight: bold;
 	font-size: 60pt;
 	padding-left: 20px;
+}
+
+.email_bubble {
+	left: 88%;
+	top: 50%;
+	margin-top: 75px;
 }
 
 .ui-state-active {
