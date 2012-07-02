@@ -184,7 +184,7 @@
 		className: 'badge',
 		initialize: function() {
 			this.count = 0;
-			this.model.live('torrent *', _.bind(function(file) {
+			this.model.btapp.live('torrent *', _.bind(function(file) {
 				this.count++;
 				this.render();
 				file.on('destroy', _.bind(function() {
@@ -196,7 +196,7 @@
 		},
 		render: function() {
 			this.$el.empty();
-			if(this.model.connected_state) {
+			if(this.model.get('connected')) {
 				this.$el.text(this.count);
 				this.$el.addClass('badge-info');
 			} else {
@@ -231,7 +231,7 @@
 			this.$el.css('left', x + 'px');
 			this.$el.css('top', y + 'px');
 
-			this.badge = new BadgeView({model: this.model.btapp});
+			this.badge = new BadgeView({model: this.model});
 
 			this.model.on('show', function() {
 				this.$el.addClass('selected');
@@ -308,6 +308,10 @@
 				this.btapp = this.get('btapp');
 			} else {
 				this.btapp = new Btapp;
+				this.set({connected: false});
+				this.btapp.on('client:connected', _.bind(this.set, this, {connected: true}));
+				this.btapp.on('client:error', _.bind(this.set, this, {connected: false}));
+
 				this.btapp.connect(_.extend(this.get('credentials'), {
 					poll_frequency: 1000,
 					queries: getQueries()
@@ -647,7 +651,6 @@
 			position: bubbles.length,
 			draggable: true
 		});
-		bubble.btapp.connected_state = true;
 		_.each(torrents, function(torrent) {
 			var name = torrent.name;
 			var uri = torrent.uri;
