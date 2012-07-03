@@ -543,9 +543,6 @@ body{
 	bottom: 160px;
 }
 
-.badge-success:hover {
-	background-color: #5EB95E !important;
-}
-.badge-info:hover {
-	background-color: #7CB2C2 !important;
+.badge-info {
+	font-family: 'Courier New';
 }
