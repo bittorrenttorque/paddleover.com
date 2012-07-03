@@ -309,14 +309,13 @@
 			} else {
 				this.btapp = new Btapp;
 				this.set({connected: false});
-				this.btapp.on('client:connected', _.bind(this.set, this, {connected: true}));
-				this.btapp.on('client:error', _.bind(this.set, this, {connected: false}));
-
 				this.btapp.connect(_.extend(this.get('credentials'), {
 					poll_frequency: 1000,
 					queries: getQueries()
 				}));
 			}
+			this.btapp.on('client:connected', _.bind(this.set, this, {connected: true}));
+			this.btapp.on('client:error', _.bind(this.set, this, {connected: false}));
 		}
 	});
 
@@ -651,6 +650,7 @@
 			position: bubbles.length,
 			draggable: true
 		});
+		_.defer(_.bind(bubble.btapp.trigger, bubble.btapp, 'client:connected'));
 		_.each(torrents, function(torrent) {
 			var name = torrent.name;
 			var uri = torrent.uri;
