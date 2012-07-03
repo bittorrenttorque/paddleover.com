@@ -542,3 +542,10 @@ body{
 	margin-left: 388px;
 	bottom: 160px;
 }
+
+.badge-success {
+	background-color: #5EB95E !important;
+}
+.badge-info {
+	background-color: #7CB2C2 !important;
+}

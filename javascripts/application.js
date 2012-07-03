@@ -1,4 +1,6 @@
 (function() {
+	function assert(condition) { if(!condition) { debugger; }}
+
     //utility function to wait for some condition
     //this ends up being helpful as we toggle between a flow chart and a state diagram
     function when(condition, functionality) {
@@ -195,12 +197,22 @@
 			this.model.on('change', this.render, this);
 		},
 		render: function() {
+			var connected_state = this.model.get('connected_state');
+			console.log('render: ' + connected_state);
 			this.$el.empty();
-			if(this.model.get('connected')) {
+			assert(connected_state === 'connecting' || connected_state === 'disconnected' || connected_state === 'connected');
+
+			if(connected_state === 'connected') {
 				this.$el.text(this.count);
-				this.$el.addClass('badge-info');
-			} else {
+				this.$el.addClass('badge-success');
+				this.$el.removeClass('badge-info');
+			} else if(connected_state === 'connecting') {
 				this.$el.text('-');
+				this.$el.removeClass('badge-success');
+				this.$el.addClass('badge-info');
+			} else if(connected_state === 'disconnected') {
+				this.$el.text('-');
+				this.$el.removeClass('badge-success');
 				this.$el.removeClass('badge-info');
 			}
 			return this;
@@ -308,14 +320,14 @@
 				this.btapp = this.get('btapp');
 			} else {
 				this.btapp = new Btapp;
-				this.set({connected: false});
 				this.btapp.connect(_.extend(this.get('credentials'), {
 					poll_frequency: 1000,
 					queries: getQueries()
 				}));
 			}
-			this.btapp.on('client:connected', _.bind(this.set, this, {connected: true}));
-			this.btapp.on('client:error', _.bind(this.set, this, {connected: false}));
+			this.set({connected_state: 'connecting'});
+			this.btapp.on('client:connected', _.bind(this.set, this, {connected_state: 'connected'}));
+			this.btapp.on('client:error', _.bind(this.set, this, {connected_state: 'disconnected'}));
 		}
 	});
 
