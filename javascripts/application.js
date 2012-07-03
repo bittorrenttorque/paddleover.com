@@ -206,14 +206,17 @@
 				this.$el.text(this.count);
 				this.$el.addClass('badge-success');
 				this.$el.removeClass('badge-info');
+				this.$el.attr('title', 'Sharing ' + this.count + ' files');
 			} else if(connected_state === 'connecting') {
 				this.$el.text('-');
 				this.$el.removeClass('badge-success');
 				this.$el.addClass('badge-info');
+				this.$el.attr('title', 'Connecting...');
 			} else if(connected_state === 'disconnected') {
 				this.$el.text('-');
 				this.$el.removeClass('badge-success');
 				this.$el.removeClass('badge-info');
+				this.$el.attr('title', 'Failed to connect...');
 			}
 			return this;
 		}		
