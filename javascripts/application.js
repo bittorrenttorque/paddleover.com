@@ -155,10 +155,21 @@
 		},
 		render: function() {
 			var properties = this.model.get('properties');
-			var date = properties ? new Date(properties.get('added_on') * 1000) : new Date;
-			var name = (properties && properties.has('name')) ? properties.get('name').replace(/^.*[\\\/]/, '') : '';
-			var progress = properties ? (properties.get('progress') / 10.0) : 0;
-			var size = (properties && properties.has('size')) ? properties.get('size') : 0;
+			var progress = 0; var name = ''; var size = 0; var date = new Date;
+
+			if(properties) {
+				if(properties.has('name')) {
+					name = properties.get('name').replace(/^.*[\\\/]/, '');
+				}
+				size = properties.get('size');
+				progress = properties.get('progress') / 10.0;
+				if(progress == 100) {
+					date = new Date(properties.get('added_on') * 1000);
+				} else {
+					var eta = properties.get('eta');
+					date = new Date(eta * 1000 + (new Date()).getTime());
+				}
+			}
 
 			this.$el.html(this.template({
 				name: name,
