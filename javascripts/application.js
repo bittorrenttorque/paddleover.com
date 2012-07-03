@@ -207,6 +207,10 @@
 				}, this));
 			}, this));
 			this.model.on('change', this.render, this);
+
+			this.model.on('bubble', _.bind(function(text) {
+				this.$el.clone().text(text).floatAway().appendTo(this.$el.parent());
+			}, this));
 		},
 		render: function() {
 			var connected_state = this.model.get('connected_state');
@@ -247,11 +251,6 @@
 		initialize: function() {
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
-
-			this.model.on('bubble', _.bind(function(text) {
-				var notice = $('<span class="badge badge-info">' + text + '</span>');
-				notice.floatAway().appendTo(this.$el);
-			}, this));
 
 			var i = this.model.get('position');
 			//size relationshipt of the container and the bubbles
