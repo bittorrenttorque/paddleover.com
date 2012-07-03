@@ -14,10 +14,11 @@ body {
 .file {
 	padding-bottom: 30px;
 	cursor: pointer;
+	color: #888;
 }
 
 .file:hover {
-	color: black;
+	color: #010101;
 }
 
 .file_size {
@@ -543,6 +544,6 @@ body{
 	bottom: 160px;
 }
 
-.badge-info {
+.badge-progress {
 	font-family: 'Courier New';
 }

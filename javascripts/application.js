@@ -222,10 +222,12 @@
 			if(connected_state === 'connected') {
 				this.$el.text(this.count)
 					.addClass('badge-success')
+					.removeClass('badge-progress')
 					.attr('title', 'Sharing ' + this.count + ' files');
 			} else if(connected_state === 'connecting') {
 				this.$el.text(getSpinner(prev))
 					.removeClass('badge-success')
+					.addClass('badge-progress')
 					.attr('title', 'Connecting...');
 				setTimeout(_.bind(function() {
 					this.render();
@@ -233,6 +235,7 @@
 			} else if(connected_state === 'disconnected') {
 				this.$el.text('-')
 					.removeClass('badge-success')
+					.removeClass('badge-progress')
 					.attr('title', 'Failed to connect...');
 			}
 			return this;
