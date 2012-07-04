@@ -268,9 +268,23 @@ body {
 	margin-top: -175px;
 }
 
-.fb_bubble {
+.fb_bubble, .smily {
 	left: 90%;
 	top: 50%;
+}
+
+.smily {
+	box-shadow: inset -4px -4px 18px 4px orange;
+
+}
+
+.smily {
+	z-index: 1;
+	background-color: yellow;
+}
+
+.fb_bubble {
+	z-index: 2;
 }
 
 .fb_bubble:hover {

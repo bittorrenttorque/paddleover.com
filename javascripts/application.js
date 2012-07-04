@@ -599,10 +599,12 @@
 		}());
 
 		//facebook
-		$('.fb_bubble').click(function() {
+		FB.init({appId: '353964634659536', xfbml: true, cookie: true});
+		$('.fb_bubble').click(function(event) {
+			if($('.fb_bubble').data('dragging')) return;
+
 			var text = 'Drag files from my computer to yours, and visa versa.'
 			var description = 'Let friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want!';
-			FB.init({appId: '353964634659536', xfbml: true, cookie: true});
 			FB.ui({
 				method: 'send',
 				picture: 'http://paddleover.com/images/icon.png',
@@ -610,6 +612,21 @@
 				name: text,
 				link: link
 			});
+		});
+
+		$('.fb_bubble').draggable({
+			revert: true,
+			appendTo: 'body',
+			start: function() {
+				console.log('start');
+				$('.fb_bubble').data('dragging', true);
+			},
+			stop: function() {
+				console.log('stop');
+				_.defer(function() {
+					$('.fb_bubble').data('dragging', false);
+				});
+			}
 		});
 
 		//email
