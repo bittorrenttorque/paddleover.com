@@ -123,3 +123,7 @@
 .above_welcome_overlay {
 	z-index: 100 !important;
 }
+
+.eula {
+	font-size: 9pt;
+}
