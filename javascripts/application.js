@@ -102,9 +102,11 @@
 	}
 
 	function getQueries() {
+		return 'btapp/';
 		return [
 			'btapp/torrent/all/*/remove/',
 			'btapp/torrent/all/*/open_containing/',
+			'btapp/torrent/all/*/properties/all/uri/', 
 			'btapp/torrent/all/*/properties/all/name/', 
 			'btapp/torrent/all/*/properties/all/eta/', 
 			'btapp/torrent/all/*/properties/all/size/', 
@@ -122,7 +124,6 @@
 	}
 
 	function getSpinner(c) {
-		console.log('spinner(' + c + ')');
 		var positions = {
 			'|': '/', 
 			'/': '-',
@@ -228,7 +229,6 @@
 		},
 		render: function() {
 			var connected_state = this.model.get('connected_state');
-			console.log('render: ' + connected_state);
 			var prev = this.$el.text();
 			this.$el.empty();
 			assert(connected_state === 'connecting' || connected_state === 'disconnected' || connected_state === 'connected');
@@ -308,13 +308,15 @@
 				greedy: 'true',
 				accept: _.bind(function(draggable) {
 					// Only allow drops of torrents
-					if(!draggable.data('bubble') || !draggable.data('torrent')) {
+					var torrent = draggable.data('torrent').id;
+					if(!draggable.data('bubble') || !torrent) {
 						return;
 					}
 
 					var addable = this.model.btapp.has('add');
-					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(draggable.data('torrent'));
-					return addable && !duplicate;
+					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(torrent.toUpperCase());
+					var ret = addable && !duplicate;
+					return ret;
 				}, this),
 				hoverClass: 'ui-state-hover hover',
 				activeClass: 'ui-state-active',
@@ -666,19 +668,19 @@
 				size: 300145610
 			},
 			{
-				uri: 'http://featuredcontent.utorrent.com/torrents/CountingCrows-BitTorrent.torrent',
+				uri: 'magnet:?xt=urn:btih:2110C7B4FA045F62D33DD0E01DD6F5BC15902179&dn=CountingCrows-BitTorrent&tr=http://bt.rghost.net/announce&tr=http://exodus.desync.com/announce&tr=http://tracker.ccc.de/announce&tr=http://tracker.publichd.eu/announce&tr=http://tracker.torrentbay.to:6969/announce&tr=http://tracker.yify-torrents.com/announce&tr=udp://ipv4.tracker.harry.lu:80/announce&tr=udp://tracker.ccc.de/announce&tr=udp://tracker.ccc.de:80/announce&tr=udp://tracker.djhsearch.co.cc:80/announce&tr=udp://tracker.publicbt.com:80/announce',
 				hash: '2110C7B4FA045F62D33DD0E01DD6F5BC15902179',
 				name: 'CountingCrows-BitTorrent', 
 				size: 29661352
 			},
 			{
-				uri: 'http://featuredcontent.utorrent.com/torrents/DeathGrips-BitTorrent.torrent', 
+				uri: 'magnet:?xt=urn:btih:F094C7473B68ED9777C7331B785586CCDD5301C7&dn=DeathGrips-BitTorrent&tr=http://bt.rghost.net/announce&tr=http://exodus.desync.com/announce&tr=http://tracker.ccc.de/announce&tr=http://tracker.publichd.eu/announce&tr=http://tracker.torrentbay.to:6969/announce&tr=http://tracker.yify-torrents.com/announce&tr=udp://ipv4.tracker.harry.lu:80/announce&tr=udp://tracker.ccc.de/announce&tr=udp://tracker.ccc.de:80/announce&tr=udp://tracker.djhsearch.co.cc:80/announce&tr=udp://tracker.publicbt.com:80/announce',
 				hash: 'F094C7473B68ED9777C7331B785586CCDD5301C7',
 				name: 'DeathGrips-BitTorrent', 
 				size: 633972503
 			},
 			{
-				uri: 'http://apps.bittorrent.com/torrents/PrettyLights-Bittorrent.torrent', 
+				uri: 'magnet:?xt=urn:btih:EE3EB1ACEC1DC7ADC73EDA16D05A495BEA1DD4BE&dn=PrettyLights-Bittorrent&tr=http://bt.rghost.net/announce&tr=http://exodus.desync.com/announce&tr=http://tracker.ccc.de/announce&tr=http://tracker.publichd.eu/announce&tr=http://tracker.torrentbay.to:6969/announce&tr=http://tracker.yify-torrents.com/announce&tr=udp://ipv4.tracker.harry.lu:80/announce&tr=udp://tracker.ccc.de/announce&tr=udp://tracker.ccc.de:80/announce&tr=udp://tracker.djhsearch.co.cc:80/announce&tr=udp://tracker.publicbt.com:80/announce',
 				hash: 'EE3EB1ACEC1DC7ADC73EDA16D05A495BEA1DD4BE',
 				name: 'PrettyLights-BT', 
 				size: 383133030
