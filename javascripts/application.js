@@ -314,7 +314,7 @@
 					}
 
 					var addable = this.model.btapp.has('add');
-					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(torrent.id.toUpperCase());
+					var duplicate = this.model.btapp.has('torrent') && this.model.btapp.get('torrent').get(torrent.id);
 					var ret = addable && !duplicate;
 					return ret;
 				}, this),
@@ -680,7 +680,7 @@
 		var torrents = [
 			{
 				uri: 'magnet:?xt=urn:btih:a92308e3d21698b7efbd6f0c1024bbfc1ab69c0e&dn=80 Proof Bit Edition&tr=http://bt.rghost.net/announce&tr=http://exodus.desync.com/announce&tr=http://tracker.ccc.de/announce&tr=http://tracker.publichd.eu/announce&tr=http://tracker.torrentbay.to:6969/announce&tr=http://tracker.yify-torrents.com/announce&tr=udp://ipv4.tracker.harry.lu:80/announce&tr=udp://tracker.ccc.de/announce&tr=udp://tracker.ccc.de:80/announce&tr=udp://tracker.djhsearch.co.cc:80/announce&tr=udp://tracker.publicbt.com:80/announce',
-				hash: 'a92308e3d21698b7efbd6f0c1024bbfc1ab69c0e',
+				hash: 'A92308E3D21698B7EFBD6F0C1024BBFC1AB69C0E',
 				name: '80 Proof - BitTorrent Edition',
 				size: 300145610
 			},
