@@ -764,7 +764,7 @@
 			setupRemote(self.btapp);
 			bubbles.add(self);
 			self.trigger('show');
-			$('.social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').show();
+			$('.sun, .social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble').show();
 			if(!isDeveloperMode()) {
 				$('.navbar-fixed-top a').hide();
 				$('.navbar-fixed-bottom span').hide();

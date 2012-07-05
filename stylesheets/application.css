@@ -7,7 +7,7 @@ body {
 	user-select: none;	
 }
 
-.not_supported, .social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble {
+.not_supported, .sun, .social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble {
 	display: none;
 }
 
@@ -268,17 +268,17 @@ body {
 	margin-top: -175px;
 }
 
-.fb_bubble, .smily {
+.fb_bubble, .sun {
 	left: 90%;
 	top: 50%;
 }
 
-.smily {
+.sun {
 	box-shadow: inset -4px -4px 18px 4px orange;
 
 }
 
-.smily {
+.sun {
 	z-index: 1;
 	background-color: yellow;
 }
