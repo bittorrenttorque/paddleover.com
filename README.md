@@ -1,5 +1,5 @@
 #Getting Started
-git clone git@github.com:pwmckenna/bubbles.git  
+git clone git@github.com:bittorrenttorque/paddleover.com.git  
 git submodule init  
 git submodule update  
 #Resources
