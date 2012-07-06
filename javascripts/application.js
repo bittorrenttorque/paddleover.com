@@ -93,6 +93,15 @@
 		return !jQuery.browser.msie;
 	}
 
+	function isLion() {
+		var ua = navigator.userAgent || navigator.appVersion;
+		return ua.match(/10[_.]7/);
+	}
+
+	function isSupportedOperatingSystem() {
+		return !isMac() || isLion();
+	}	
+
 	function isBubbleDeletionSupported() {
 		return false;
 	}
@@ -742,7 +751,12 @@
 
 	jQuery(function() {
 		if(!isSupportedBrowser()) {
-			$('.not_supported').show();
+			$('.browser_not_supported').show();
+			return;
+		}
+
+		if(!isSupportedOperatingSystem()) {
+			$('.os_not_supported').show();
 			return;
 		}
 
