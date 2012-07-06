@@ -631,9 +631,14 @@
 
 		//email
 		(function() {
-			var subject = 'I\'m sharing files with PaddleOver';
-			var body = 'PaddleOver lets friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want! I\'m using it right now. Join me!';
-			$('.email_bubble').attr('href', 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body) + '%0D%0A%0D%0A' + encodeURIComponent(link));
+			ZeroClipboard.setMoviePath( 'javascripts/ZeroClipboard/ZeroClipboard10.swf' );
+			var clip = new ZeroClipboard.Client();
+		 	clip.addEventListener( 'onLoad', _.bind(console.log, console) );
+			clip.addEventListener( 'onComplete', function( client, text ) {
+				console.log("Copied text to clipboard: " + text );
+			});
+			clip.setText(link);
+			clip.glue( 'email_clipboard', 'email_container' );
 		}());
 	}
 

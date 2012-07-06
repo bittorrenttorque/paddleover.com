@@ -15,6 +15,8 @@
 		<script type="text/javascript" src="javascripts/jquery-ui/ui/jquery.ui.draggable.js"></script>
 		<script type="text/javascript" src="javascripts/jquery-ui/ui/jquery.ui.droppable.js"></script>
 
+		<!-- jonrohan/ZeroClipboard submodule -->
+		<script type="text/javascript" src="javascripts/ZeroClipboard/ZeroClipboard.js"></script>
 		<!-- pwmckenna/floataway.jquery submodule -->
 		<script type="text/javascript" src="javascripts/floataway.jquery/floataway.jquery.js"></script>
 		<!-- pwmckenna/backbrace submodule -->
@@ -123,8 +125,10 @@ if (typeof GSFN !== "undefined") { GSFN.loadWidget(685,{"containerId":"getsat-wi
 			</a>
 			<a class="sun bubble" title="peekaboo">
 			</a>
-			<a target="_blank" class="email_bubble bubble social_bubble" title="send a sharing invite via email">
-				<img src="images/email.png" />
+			<a id="email_bubble" class="email_bubble bubble social_bubble" title="send a sharing invite via email">
+				<div id="email_container">
+					<img id="email_clipboard" src="images/email.png" />
+				</div>
 			</a>
 		</div>
 		
