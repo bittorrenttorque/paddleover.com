@@ -633,9 +633,8 @@
 		(function() {
 			ZeroClipboard.setMoviePath( 'javascripts/ZeroClipboard/ZeroClipboard10.swf' );
 			var clip = new ZeroClipboard.Client();
-		 	clip.addEventListener( 'onLoad', _.bind(console.log, console) );
 			clip.addEventListener( 'onComplete', function( client, text ) {
-				console.log("Copied text to clipboard: " + text );
+				$('#email_clipboard').clone().floatAway().appendTo($('#email_bubble'));
 			});
 			clip.setText(link);
 			clip.glue( 'email_clipboard', 'email_container' );

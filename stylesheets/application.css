@@ -225,17 +225,18 @@ body {
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin-left: -35px;
-	margin-top: -25px;
+	margin-left: -30px;
+	margin-top: -30px;
 
-	width: 70px;
-	height: 50px;
+	width: 60px;
+	height: 60px;
 }
 
 #email_container {
 	position: relative;
 	width: 100px;
 	height: 100px;
+	cursor: default;
 }
 
 .social_bubble {
