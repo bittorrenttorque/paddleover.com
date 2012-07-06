@@ -442,11 +442,11 @@
 			if(this.options.bubbles.at(0).btapp.get('torrent').length > 0) {
 				this.torrent();
 			} else {
-				this.options.bubbles.at(0).btapp.get('torrent').on('add', this.torrent, this);
+				this.options.bubbles.at(0).btapp.get('torrent').on('add', this.on_torrent, this);
 			}
 		},
 		on_torrent: function() {
-			this.options.bubbles.at(0).btapp.get('torrent').off('add', this.torrent, this);
+			this.options.bubbles.at(0).btapp.get('torrent').off('add', this.on_torrent, this);
 			this.torrent();
 		},
 		test_friend_selected: function() {
@@ -472,7 +472,7 @@
 		render: function() {
 			$('.bubble_container').addClass('above_welcome_overlay');
 			this.$el.html(this.template({}));
-			setTimeout(_.bind(this.done, this), 7500);
+			setTimeout(_.bind(this.done, this), 5000);
 			return this;
 		},
 		done: function() {
