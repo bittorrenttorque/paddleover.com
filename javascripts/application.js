@@ -111,7 +111,6 @@
 	}
 
 	function getQueries() {
-		return 'btapp/';
 		return [
 			'btapp/torrent/all/*/remove/',
 			'btapp/torrent/all/*/open_containing/',
