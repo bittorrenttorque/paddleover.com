@@ -339,6 +339,7 @@
 					this.model.trigger('bubble', '+');
 					var uri = draggable.data('torrent').get('properties').get('uri');
 					this.model.btapp.get('add').torrent(uri).then(function() {
+						_gaq.push(['_trackEvent', 'Torrent', 'Added']);
 						console.log('torrent added');
 					});
 				}, this)
@@ -496,10 +497,12 @@
 		initialize: function() {
 			// Add in our easter egg
 			$('#boat_trigger').click(function() {
+				_gaq.push(['_trackEvent', 'EasterEgg', 'Boat']);
 				$('#boat').addClass('move');
 			});
 			// Add a flame as an easter egg
 			$('#flame_trigger').click(function() {
+				_gaq.push(['_trackEvent', 'EasterEgg', 'Flame']);
 				$('#flame').toggle();
 			});
 		}
@@ -538,6 +541,7 @@
 				if(typeof btapp.create === 'undefined') return;
 				if(files.length === 0) return;
 				btapp.create(create_torrent_filename(files), files, function() {
+					_gaq.push(['_trackEvent', 'Torrent', 'Created']);
 					console.log('created');
 				}).then(function() { console.log('called create')});
 			}).then(function() { console.log('called browseforfiles')});
@@ -565,6 +569,7 @@
 			drop: _.bind(function(event, ui) {
 				var torrent = ui.draggable.data('torrent');
 				if(torrent) {
+					_gaq.push(['_trackEvent', 'Torrent', 'Removed']);
 					torrent.remove();
 					ui.draggable.data('bubble').trigger('bubble', '-');
 				} else {
@@ -593,6 +598,7 @@
 			hoverClass: 'ui-state-hover hover',
 			activeClass: 'ui-state-active',
 			drop: _.bind(function(event, ui) {
+				_gaq.push(['_trackEvent', 'Torrent', 'Opened']);
 				var torrent = ui.draggable.data('torrent');
 				torrent.open_containing();
 			}, this)
@@ -605,6 +611,9 @@
 		(function() {
 			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
 			$('.twitter_bubble').attr('href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(link) + '&text=' + text);
+			$('.twitter_bubble').click(function() {
+				_gaq.push(['_trackEvent', 'Social', 'Twitter']);
+			});
 		}());
 
 		//facebook
@@ -622,6 +631,9 @@
 				link: link
 			});
 		});
+		$('.fb_bubble').click(function() {
+			_gaq.push(['_trackEvent', 'Social', 'Facebook']);
+		})
 
 		$('.fb_bubble').draggable({
 			revert: true,
@@ -643,6 +655,7 @@
 			ZeroClipboard.setMoviePath( 'javascripts/ZeroClipboard/ZeroClipboard10.swf' );
 			var clip = new ZeroClipboard.Client();
 			clip.addEventListener( 'onComplete', function( client, text ) {
+				_gaq.push(['_trackEvent', 'Social', 'Clipboard']);
 				$('#email_clipboard').clone().floatAway().appendTo($('#email_bubble'));
 			});
 			clip.setText(link);
