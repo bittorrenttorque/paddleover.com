@@ -130,6 +130,7 @@ body {
 	border-radius: 50px;
 	color: #555;
 	box-shadow: inset -4px -4px 8px 4px #e3e3e3;
+	overflow: hidden;
 }
 
 .user_bubble p {
