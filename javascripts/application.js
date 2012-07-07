@@ -660,12 +660,15 @@
 		var welcomenameview = new WelcomeNameView({model: namemodel});
 		$('body').append(welcomenameview.render().el);
 		$('.auto-focus:visible:first').focus();
+		_gaq.push(['_trackEvent', 'Welcome', 'Name']);
 
 		var show_install = function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Install']);
 			var welcomeinstallview = new WelcomeInstallView({model: installmodel});
 			$('body').append(welcomeinstallview.render().el);
 		};
 		var show_bubble_explanation = function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Explanation']);
 			var bubbles = start();
 			var welcomebubbleexplanationview = new WelcomeBubbleExplanationView({
 				model: bubbleexplanationmodel,
@@ -674,6 +677,7 @@
 			$('body').append(welcomebubbleexplanationview.render().el);
 		}
 		var show_bubble_explanation_success = function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Success']);
 			var bubbleexplanationsuccessview = new WelcomeBubbleExplanationSuccessView({
 				model: bubbleexplanationsuccessmodel
 			});
@@ -684,6 +688,7 @@
 		installmodel.on('next', show_bubble_explanation);
 		bubbleexplanationmodel.on('next', show_bubble_explanation_success);
 		bubbleexplanationsuccessmodel.on('next', function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Complete']);
 			$('.welcome_overlay').fadeOut();
 		});
 	}
