@@ -95,7 +95,7 @@
 
 	function isLion() {
 		var ua = navigator.userAgent || navigator.appVersion;
-		return ua.match(/10[_.]7/);
+		return ua.match(/10[_.]7/) || ua.match(/10[_.]8/);
 	}
 
 	function isSupportedOperatingSystem() {
