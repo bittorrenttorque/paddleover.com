@@ -93,6 +93,15 @@
 		return !jQuery.browser.msie;
 	}
 
+	function isLion() {
+		var ua = navigator.userAgent || navigator.appVersion;
+		return ua.match(/10[_.]7/) || ua.match(/10[_.]8/);
+	}
+
+	function isSupportedOperatingSystem() {
+		return !isMac() || isLion();
+	}	
+
 	function isBubbleDeletionSupported() {
 		return false;
 	}
@@ -102,24 +111,23 @@
 	}
 
 	function getQueries() {
-		return 'btapp/';
 		return [
-			'btapp/torrent/all/*/remove/',
-			'btapp/torrent/all/*/open_containing/',
-			'btapp/torrent/all/*/properties/all/uri/', 
-			'btapp/torrent/all/*/properties/all/name/', 
-			'btapp/torrent/all/*/properties/all/eta/', 
-			'btapp/torrent/all/*/properties/all/size/', 
-			'btapp/torrent/all/*/properties/all/progress/', 
-			'btapp/torrent/all/*/properties/all/added_on/', 
-			'btapp/browseforfiles/',
-			'btapp/create/', 
-			'btapp/settings/', 
-			'btapp/add/',
-			'btapp/events/',
-			'btapp/connect_remote/',
-			'btapp/stash/',
-			'btapp/showview/'
+			['btapp','torrent','all','*','remove'],
+			['btapp','torrent','all','*','open_containing'],
+			['btapp','torrent','all','*','properties','all','uri'], 
+			['btapp','torrent','all','*','properties','all','name'], 
+			['btapp','torrent','all','*','properties','all','eta'], 
+			['btapp','torrent','all','*','properties','all','size'], 
+			['btapp','torrent','all','*','properties','all','progress'], 
+			['btapp','torrent','all','*','properties','all','added_on'], 
+			['btapp','browseforfiles'],
+			['btapp','create'], 
+			['btapp','settings'], 
+			['btapp','add'],
+			['btapp','events'],
+			['btapp','connect_remote'],
+			['btapp','stash'],
+			['btapp','showview']
 		];
 	}
 
@@ -330,6 +338,7 @@
 					this.model.trigger('bubble', '+');
 					var uri = draggable.data('torrent').get('properties').get('uri');
 					this.model.btapp.get('add').torrent(uri).then(function() {
+						_gaq.push(['_trackEvent', 'Torrent', 'Added']);
 						console.log('torrent added');
 					});
 				}, this)
@@ -487,10 +496,12 @@
 		initialize: function() {
 			// Add in our easter egg
 			$('#boat_trigger').click(function() {
+				_gaq.push(['_trackEvent', 'EasterEgg', 'Boat']);
 				$('#boat').addClass('move');
 			});
 			// Add a flame as an easter egg
 			$('#flame_trigger').click(function() {
+				_gaq.push(['_trackEvent', 'EasterEgg', 'Flame']);
 				$('#flame').toggle();
 			});
 		}
@@ -529,6 +540,7 @@
 				if(typeof btapp.create === 'undefined') return;
 				if(files.length === 0) return;
 				btapp.create(create_torrent_filename(files), files, function() {
+					_gaq.push(['_trackEvent', 'Torrent', 'Created']);
 					console.log('created');
 				}).then(function() { console.log('called create')});
 			}).then(function() { console.log('called browseforfiles')});
@@ -556,6 +568,7 @@
 			drop: _.bind(function(event, ui) {
 				var torrent = ui.draggable.data('torrent');
 				if(torrent) {
+					_gaq.push(['_trackEvent', 'Torrent', 'Removed']);
 					torrent.remove();
 					ui.draggable.data('bubble').trigger('bubble', '-');
 				} else {
@@ -584,6 +597,7 @@
 			hoverClass: 'ui-state-hover hover',
 			activeClass: 'ui-state-active',
 			drop: _.bind(function(event, ui) {
+				_gaq.push(['_trackEvent', 'Torrent', 'Opened']);
 				var torrent = ui.draggable.data('torrent');
 				torrent.open_containing();
 			}, this)
@@ -596,6 +610,9 @@
 		(function() {
 			var text = 'Drag files from my computer to yours, and visa versa using #PaddleOver.'
 			$('.twitter_bubble').attr('href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(link) + '&text=' + text);
+			$('.twitter_bubble').click(function() {
+				_gaq.push(['_trackEvent', 'Social', 'Twitter']);
+			});
 		}());
 
 		//facebook
@@ -613,6 +630,9 @@
 				link: link
 			});
 		});
+		$('.fb_bubble').click(function() {
+			_gaq.push(['_trackEvent', 'Social', 'Facebook']);
+		})
 
 		$('.fb_bubble').draggable({
 			revert: true,
@@ -631,9 +651,14 @@
 
 		//email
 		(function() {
-			var subject = 'I\'m sharing files with PaddleOver';
-			var body = 'PaddleOver lets friends add files to your computer, and do the same for them. Works both ways too, so you can take what you want! I\'m using it right now. Join me!';
-			$('.email_bubble').attr('href', 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body) + '%0D%0A%0D%0A' + encodeURIComponent(link));
+			ZeroClipboard.setMoviePath( 'javascripts/ZeroClipboard/ZeroClipboard10.swf' );
+			var clip = new ZeroClipboard.Client();
+			clip.addEventListener( 'onComplete', function( client, text ) {
+				_gaq.push(['_trackEvent', 'Social', 'Clipboard']);
+				$('#email_clipboard').clone().floatAway().appendTo($('#email_bubble'));
+			});
+			clip.setText(link);
+			clip.glue( 'email_clipboard', 'email_container' );
 		}());
 	}
 
@@ -647,12 +672,15 @@
 		var welcomenameview = new WelcomeNameView({model: namemodel});
 		$('body').append(welcomenameview.render().el);
 		$('.auto-focus:visible:first').focus();
+		_gaq.push(['_trackEvent', 'Welcome', 'Name']);
 
 		var show_install = function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Install']);
 			var welcomeinstallview = new WelcomeInstallView({model: installmodel});
 			$('body').append(welcomeinstallview.render().el);
 		};
 		var show_bubble_explanation = function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Explanation']);
 			var bubbles = start();
 			var welcomebubbleexplanationview = new WelcomeBubbleExplanationView({
 				model: bubbleexplanationmodel,
@@ -661,6 +689,7 @@
 			$('body').append(welcomebubbleexplanationview.render().el);
 		}
 		var show_bubble_explanation_success = function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Success']);
 			var bubbleexplanationsuccessview = new WelcomeBubbleExplanationSuccessView({
 				model: bubbleexplanationsuccessmodel
 			});
@@ -671,6 +700,7 @@
 		installmodel.on('next', show_bubble_explanation);
 		bubbleexplanationmodel.on('next', show_bubble_explanation_success);
 		bubbleexplanationsuccessmodel.on('next', function() {
+			_gaq.push(['_trackEvent', 'Welcome', 'Complete']);
 			$('.welcome_overlay').fadeOut();
 		});
 	}
@@ -738,7 +768,12 @@
 
 	jQuery(function() {
 		if(!isSupportedBrowser()) {
-			$('.not_supported').show();
+			$('.browser_not_supported').show();
+			return;
+		}
+
+		if(!isSupportedOperatingSystem()) {
+			$('.os_not_supported').show();
 			return;
 		}
 

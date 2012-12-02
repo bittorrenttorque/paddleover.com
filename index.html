@@ -15,17 +15,19 @@
 		<script type="text/javascript" src="javascripts/jquery-ui/ui/jquery.ui.draggable.js"></script>
 		<script type="text/javascript" src="javascripts/jquery-ui/ui/jquery.ui.droppable.js"></script>
 
+		<!-- jonrohan/ZeroClipboard submodule -->
+		<script type="text/javascript" src="javascripts/ZeroClipboard/ZeroClipboard.js"></script>
 		<!-- pwmckenna/floataway.jquery submodule -->
 		<script type="text/javascript" src="javascripts/floataway.jquery/floataway.jquery.js"></script>
 		<!-- pwmckenna/backbrace submodule -->
 		<script type="text/javascript" src="javascripts/backbrace/backbrace.js"></script>
-		<!-- pwmckenna/btapp submodule -->
-		<script type="text/javascript" src="javascripts/btapp/btapp.js"></script>
-		<script type="text/javascript" src="javascripts/btapp/client.btapp.js"></script>
-		<script type="text/javascript" src="javascripts/btapp/plugin.btapp.js"></script>
-		<script type="text/javascript" src="javascripts/btapp/pairing.btapp.js"></script>
 		<!-- pwmckenna/jStorage submodule -->
 		<script type="text/javascript" src="javascripts/jStorage/jstorage.min.js"></script>
+		<!-- pwmckenna/btapp submodule -->
+		<script type="text/javascript" src="javascripts/btapp/plugin.btapp.js"></script>
+		<script type="text/javascript" src="javascripts/btapp/pairing.btapp.js"></script>
+		<script type="text/javascript" src="javascripts/btapp/client.btapp.js"></script>
+		<script type="text/javascript" src="javascripts/btapp/btapp.js"></script>
 
 
 		<script type="text/javascript" src="javascripts/application.js"></script>
@@ -118,14 +120,16 @@ if (typeof GSFN !== "undefined") { GSFN.loadWidget(685,{"containerId":"getsat-wi
 			<a class="twitter_bubble bubble social_bubble" href="" title="tweet out an invite to share files">
 				<img src="images/twitter_newbird_white.png" />
 			</a>
-			<a class="fb_bubble bubble social_bubble" title="send an sharing invite to your facebook friends">
+			<a class="fb_bubble bubble social_bubble" title="send a sharing invite to your facebook friends">
 				<span>f</span>
 			</a>
 			<a class="sun bubble" title="peekaboo">
 			</a>
-			<a target="_blank" class="email_bubble bubble social_bubble" title="send a sharing invite via email">
-				<img src="images/email.png" />
-			</a>
+			<div id="email_bubble" class="email_bubble bubble social_bubble" title="copy your share invite link">
+				<div id="email_container">
+					<img id="email_clipboard" src="images/copy.png" />
+				</div>
+			</div>
 		</div>
 		
 		<div class="navbar navbar-fixed-top">
@@ -191,11 +195,26 @@ if (typeof GSFN !== "undefined") { GSFN.loadWidget(685,{"containerId":"getsat-wi
 		<div class="welcome_overlay"></div>
 
 
-		<div class="welcome_frame not_supported">
+		<div class="welcome_frame browser_not_supported">
 			<div class="contents">
 				<h3>Coming Soon!</h3>
 				<br>
 				<p>We don't support Internet Explorer yet. Enter your email below and we'll let you know when support is available.</p><br>
+				<form action="http://bittorrent.createsend.com/t/r/s/yhkidij/" method="post" id="subForm">
+					<div>
+						<input type="text" name="cm-yhkidij-yhkidij" id="yhkidij-yhkidij" /><br />
+
+						<input type="submit" id="notify" value="Notify Me!" />
+						<div></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="welcome_frame os_not_supported">
+			<div class="contents">
+				<h3>Coming Soon!</h3>
+				<br>
+				<p>We currently only support OS X Lion. Enter your email below and we'll let you know when support is available.</p><br>
 				<form action="http://bittorrent.createsend.com/t/r/s/yhkidij/" method="post" id="subForm">
 					<div>
 						<input type="text" name="cm-yhkidij-yhkidij" id="yhkidij-yhkidij" /><br />

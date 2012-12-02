@@ -13,3 +13,6 @@
 [submodule "javascripts/jquery-ui"]
 	path = javascripts/jquery-ui
 	url = git://github.com/pwmckenna/jquery-ui.git
+[submodule "javascripts/ZeroClipboard"]
+	path = javascripts/ZeroClipboard
+	url = git://github.com/jonrohan/ZeroClipboard.git

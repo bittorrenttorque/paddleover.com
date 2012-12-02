@@ -7,7 +7,7 @@ body {
 	user-select: none;	
 }
 
-.not_supported, .sun, .social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble {
+.browser_not_supported, .os_not_supported, .sun, .social_bubble, .add_user, .add_bubble, .bubble_container, .navbar, .banner, .remove_bubble, .computer_bubble {
 	display: none;
 }
 
@@ -130,6 +130,7 @@ body {
 	border-radius: 50px;
 	color: #555;
 	box-shadow: inset -4px -4px 8px 4px #e3e3e3;
+	overflow: hidden;
 }
 
 .user_bubble p {
@@ -221,15 +222,22 @@ body {
 	height: 60px;
 }
 
-.email_bubble img {
+#email_clipboard {
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin-left: -35px;
-	margin-top: -25px;
+	margin-left: -30px;
+	margin-top: -30px;
 
-	width: 70px;
-	height: 50px;
+	width: 60px;
+	height: 60px;
+}
+
+#email_container {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	cursor: default;
 }
 
 .social_bubble {
